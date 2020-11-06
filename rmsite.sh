@@ -30,6 +30,14 @@ PF_MEMBER="/QSYS.LIB/QUSRSYS.LIB/QATMHINSTC.FILE/$SITE_NAME.MBR"
 # PHP conf is under here too
 APACHEDIR="/www/$SITE_NAME/"
 
+if [ ! -d "$APACHEDIR" ]; then
+	echo "The site doesn't exist."
+	exit 2
+fi
+
+echo " ** Ending..."
+system ENDTCPSVR "SERVER(*HTTP)" "HTTPSVR($SITE_NAME)"
+
 echo " ** Deleting..."
 
 rm "$PF_MEMBER"
