@@ -36,7 +36,8 @@ if [ ! -d "$APACHEDIR" ]; then
 fi
 
 echo " ** Ending..."
-system ENDTCPSVR "SERVER(*HTTP)" "HTTPSVR($SITE_NAME)"
+# this is || true in case the server isn't running already
+system ENDTCPSVR "SERVER(*HTTP)" "HTTPSVR($SITE_NAME)" || true
 
 echo " ** Deleting..."
 
