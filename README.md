@@ -22,18 +22,21 @@ The following flags are taken:
   want to use a different set of extensions, for example. The new PHP config
   will be under the site's `phpconf` folder and copied from the
   `/QOpenSys/etc/php` directory.
-* `-Y`: If the web server should start automatically.`
+* `-Y`: If the web server should start automatically. Default.
 * `-N`: If the web server should *not* start automatically.`
+* `-T`: Override the default template directory.
 
-Some additional flags are used to override what templates are used. The
-templates are m4 files with certain variables given. Consult the templates
+#### Overriding templates.
+
+The `-T` flag is used to override what templates are used for substitutions.
+The templates are m4 files with certain variables given. Consult the templates
 and script for the variables to use for a custom template.
 
-* `-h`: `httpd.conf`
-* `-H`: `index.html`
-* `-f`: `fastcgi.conf` (zend enabler)
+* `template-httpd.m4`: `SITEDIR/conf/httpd.conf`
+* `template-index.html.m4`: `SITEDIR/htdocs/index.html`
+* `template-fastcgi.m4`: `SITEDIR/fastcgi.conf` (zend enabler)
 
 ### rmsite
 
-The only argument taken is the name of the site. It will unregister the site
-from the known list of sites, and remove the directory.
+The only argument taken is the name of the site. It will end the HTTP server,
+unregister the site from the known list of sites, and remove the directory.

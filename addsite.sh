@@ -18,7 +18,7 @@
 set -euo pipefail
 
 usage() {
-	echo "Usage: $0 -p port -n site_name [-h http_template_file] [-f fastcgi_template_file] [-H html_template_file] [-I] [-Y|-N]"
+	echo "Usage: $0 -p port -n site_name [-T template_directory] [-I] [-Y|-N]"
 	echo ""
 	echo "Simplest usage: $0 -p port -n site_name"
 	echo ""
@@ -34,20 +34,15 @@ usage() {
 	echo "      The default otherwise is to use said shared PHP etc dir."
 	echo "  -Y: If the site should start automatically. Default."
 	echo "  -N: If the site should not start automatically."
-	echo "  -h http_template_file: Override what template is used for httpd.conf."
-	echo "  -H html_template_file: Override what template is used for index.html."
-	echo "  -f fastcgi_template_file: Override what template is used for fastcgi.conf."
+	echo "  -T: The template directory to use instead of the default."
 	exit 255
 }
 
-# XXX: It might be worth considering making this take a directory parameter instead.
-TMPL_HTTP="/QOpenSys/pkgs/share/siteadd/template-httpd.m4"
-TMPL_FCGI="/QOpenSys/pkgs/share/siteadd/template-fastcgi.m4"
-TMPL_HTML="/QOpenSys/pkgs/share/siteadd/template-index.html.m4"
 MAKE_ETCPHP=no
 AUTOSTART=" -AutoStartY"
+TMPL_DI="/QOpenSys/pkgs/share/siteadd"
 
-while getopts ":p:n:h:H:f:YNI" o; do
+while getopts ":p:n:T:YNI" o; do
 	case "${o}" in
 		"p")
 			SITE_PORT=${OPTARG}
@@ -74,14 +69,8 @@ while getopts ":p:n:h:H:f:YNI" o; do
 				exit 9
 			fi
 			;;
-		"h")
-			TMPL_HTTP=${OPTARG}
-			;;
-		"H")
-			TMPL_HTML=${OPTARG}
-			;;
-		"f")
-			TMPL_FCGI=${OPTARG}
+		"T")
+			TMPL_DIR=${OPTARG}
 			;;
 		"I")
 			MAKE_ETCPHP=yes
@@ -110,6 +99,9 @@ if ! [[ -v SITE_PORT ]]; then
 	usage
 fi
 
+TMPL_HTTP="$TMPL_DIR/template-httpd.m4"
+TMPL_FCGI="$TMPL_DIR/template-fastcgi.m4"
+TMPL_HTML="$TMPL_DIR/template-index.html.m4"
 if [ ! -f "$TMPL_HTTP" ]; then
 	echo "The HTTPd template \"$TMPL_HTTP\" doesn't exist."
 	exit 4
