@@ -22,6 +22,8 @@ The following flags are taken:
   want to use a different set of extensions, for example. The new PHP config
   will be under the site's `phpconf` folder and copied from the
   `/QOpenSys/etc/php` directory.
+* `-C`: If the htdocs directory should be populated with the contents of
+  another site. The other site must exist.
 * `-Y`: If the web server should start automatically. Default.
 * `-N`: If the web server should *not* start automatically.`
 * `-T`: Override the default template directory.

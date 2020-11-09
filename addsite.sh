@@ -18,7 +18,7 @@
 set -euo pipefail
 
 usage() {
-	echo "Usage: $0 -p port -n site_name [-T template_directory] [-I] [-Y|-N]"
+	echo "Usage: $0 -p port -n site_name [-C old_site] [-T template_directory] [-I] [-Y|-N]"
 	echo ""
 	echo "Simplest usage: $0 -p port -n site_name"
 	echo ""
@@ -32,6 +32,7 @@ usage() {
 	echo "      PHP INIs will then be in /www/sitename/phpconf."
 	echo "      Said INIs will be copied from the shared PHP etc dir."
 	echo "      The default otherwise is to use said shared PHP etc dir."
+	echo "  -C: Copy htdocs from another site. Must exist."
 	echo "  -Y: If the site should start automatically. Default."
 	echo "  -N: If the site should not start automatically."
 	echo "  -T: The template directory to use instead of the default."
@@ -40,9 +41,10 @@ usage() {
 
 MAKE_ETCPHP=no
 AUTOSTART=" -AutoStartY"
-TMPL_DI="/QOpenSys/pkgs/share/siteadd"
+TMPL_DIR="/QOpenSys/pkgs/share/siteadd"
+OLD_SITENAME=""
 
-while getopts ":p:n:T:YNI" o; do
+while getopts ":p:n:T:C:YNI" o; do
 	case "${o}" in
 		"p")
 			SITE_PORT=${OPTARG}
@@ -71,6 +73,9 @@ while getopts ":p:n:T:YNI" o; do
 			;;
 		"T")
 			TMPL_DIR=${OPTARG}
+			;;
+		"C")
+			OLD_SITENAME=${OPTARG}
 			;;
 		"I")
 			MAKE_ETCPHP=yes
@@ -113,6 +118,11 @@ fi
 if [ ! -f "$TMPL_HTML" ]; then
 	echo "The default HTML page template \"$TMPL_HTML\" doesn't exist."
 	exit 11
+fi
+
+if [ -n "$OLD_SITENAME" ] && [ ! -d "/www/$OLD_SITENAME/htdocs" ]; then
+	echo "The old site doesn't exist."
+	exit 12
 fi
 
 if [ "$(uname)" != "OS400" ]; then
@@ -159,6 +169,11 @@ for dir in {logs,conf,htdocs}; do
 	mkdir -p "$APACHEDIR/$dir"
 done
 echo " ** Made directories for web server"
+
+if [ -n "$OLD_SITENAME" ]; then
+	cp -R "/www/$OLD_SITENAME/htdocs/*" "$APACHEDIR/htdocs/"
+	echo " ** Copied old site documents"
+fi
 
 # XXX: wrapper for m4?
 m4 -D "xSITE_NAME=$SITE_NAME" -D "xPHPDIR=$ETCPHPDIR" -D "xWWWDIR=$APACHEDIR" -D "xPORT=$SITE_PORT" "$TMPL_HTTP" > "$APACHEDIR/conf/httpd.conf"
