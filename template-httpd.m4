@@ -1,5 +1,22 @@
-# SG m4 template
+# This is the default template used for httpd.conf in siteadd.
+# Provided by Seiden Group. Feel free to customize this as you wish.
+# By default, this configuration is equivalent to the defaults used for a new
+# site in HTTPAdmin, but with FastCGI support for PHP enabled. Some useful
+# additional configuration options are commented out for further exploration.
+
 Listen *:xPORT
+
+# Some additional modules you can enable...
+# Proxy modules:
+# LoadModule proxy_module /QSYS.LIB/QHTTPSVR.LIB/QZSRCORE.SRVPGM
+# LoadModule proxy_http_module /QSYS.LIB/QHTTPSVR.LIB/QZSRCORE.SRVPGM
+# LoadModule proxy_connect_module /QSYS.LIB/QHTTPSVR.LIB/QZSRCORE.SRVPGM
+# LoadModule proxy_ftp_module /QSYS.LIB/QHTTPSVR.LIB/QZSRCORE.SRVPGM
+# SSL/TLS (HTTPS; requires further flags to enable):
+# LoadModule ibm_ssl_module /QSYS.LIB/QHTTPSVR.LIB/QZSRVSSL.SRVPGM
+# Transparent compression (use files that aren't already compressed, like text):
+# LoadModule deflate_module /QSYS.LIB/QHTTPSVR.LIB/QZSRCORE.SRVPGM
+# AddOutputFilterByType DEFLATE application/x-httpd-php application/json text/css application/x-javascript application/javascript text/html
 
 # FastCGI
 LoadModule zend_enabler_module /QSYS.LIB/QHTTPSVR.LIB/QZFAST.SRVPGM
@@ -10,6 +27,8 @@ AddHandler fastcgi-script .php
 DefaultFsCCSID 37 
 CGIJobCCSID 37    
 
+# Enable index.php to be used if no file is explicitly specified
+DirectoryIndex index.php index.html
 
 DocumentRoot xWWWDIR/htdocs
 TraceEnable Off
