@@ -178,12 +178,15 @@ fi
 # XXX: wrapper for m4?
 m4 -D "xSITE_NAME=$SITE_NAME" -D "xPHPDIR=$ETCPHPDIR" -D "xWWWDIR=$APACHEDIR" -D "xPORT=$SITE_PORT" "$TMPL_HTTP" > "$APACHEDIR/conf/httpd.conf"
 m4 -D "xSITE_NAME=$SITE_NAME" -D "xPHPDIR=$ETCPHPDIR" -D "xWWWDIR=$APACHEDIR" -D "xPORT=$SITE_PORT" "$TMPL_FCGI" > "$APACHEDIR/conf/fastcgi.conf"
-m4 -D "xSITE_NAME=$SITE_NAME" -D "xPHPDIR=$ETCPHPDIR" -D "xWWWDIR=$APACHEDIR" -D "xPORT=$SITE_PORT" "$TMPL_HTML" > "$APACHEDIR/htdocs/index.html"
-cat > "$APACHEDIR/htdocs/phpinfo.php" << EOF
-<?php
-
-phpinfo();
-EOF
+if [ -z "$OLD_SITENAME" ]; then
+	# don't generate this if we have an existing site to copy htdocs from
+	m4 -D "xSITE_NAME=$SITE_NAME" -D "xPHPDIR=$ETCPHPDIR" -D "xWWWDIR=$APACHEDIR" -D "xPORT=$SITE_PORT" "$TMPL_HTML" > "$APACHEDIR/htdocs/index.html"
+	cat > "$APACHEDIR/htdocs/phpinfo.php" <<-EOF
+	<?php
+	
+	phpinfo();
+	EOF
+fi
 echo " ** Filled in templates"
 
 if [ "$MAKE_ETCPHP" = "yes" ]; then
