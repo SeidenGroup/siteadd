@@ -175,7 +175,7 @@ done
 echo " ** Made directories for web server"
 
 if [ -n "$OLD_SITENAME" ]; then
-	cp -R "/www/$OLD_SITENAME/htdocs/*" "$APACHEDIR/htdocs/"
+	cp -R "/www/$OLD_SITENAME/htdocs/"* "$APACHEDIR/htdocs/"
 	echo " ** Copied old site documents"
 fi
 
