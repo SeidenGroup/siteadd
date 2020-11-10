@@ -1,9 +1,9 @@
 .PHONY: dist clean test
 
-VERSION := 0.3
+VERSION := 0.4
 
 clean:
-	rm -f *.tar.gz`
+	rm -f *.tar.gz
 
 dist:
 	# XXX: hardcodes a lot
