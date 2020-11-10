@@ -39,6 +39,10 @@ usage() {
 	exit 255
 }
 
+m4_wrap() {
+	m4 -D "xSITE_NAME=$SITE_NAME" -D "xPHPDIR=$ETCPHPDIR" -D "xWWWDIR=$APACHEDIR" -D "xPORT=$SITE_PORT" "$1" > "$2"
+}
+
 MAKE_ETCPHP=no
 AUTOSTART=" -AutoStartY"
 TMPL_DIR="/QOpenSys/pkgs/share/siteadd"
@@ -175,12 +179,11 @@ if [ -n "$OLD_SITENAME" ]; then
 	echo " ** Copied old site documents"
 fi
 
-# XXX: wrapper for m4?
-m4 -D "xSITE_NAME=$SITE_NAME" -D "xPHPDIR=$ETCPHPDIR" -D "xWWWDIR=$APACHEDIR" -D "xPORT=$SITE_PORT" "$TMPL_HTTP" > "$APACHEDIR/conf/httpd.conf"
-m4 -D "xSITE_NAME=$SITE_NAME" -D "xPHPDIR=$ETCPHPDIR" -D "xWWWDIR=$APACHEDIR" -D "xPORT=$SITE_PORT" "$TMPL_FCGI" > "$APACHEDIR/conf/fastcgi.conf"
+m4_wrap "$TMPL_HTTP" "$APACHEDIR/conf/httpd.conf"
+m4_wrap "$TMPL_FCGI" "$APACHEDIR/conf/fastcgi.conf"
 if [ -z "$OLD_SITENAME" ]; then
 	# don't generate this if we have an existing site to copy htdocs from
-	m4 -D "xSITE_NAME=$SITE_NAME" -D "xPHPDIR=$ETCPHPDIR" -D "xWWWDIR=$APACHEDIR" -D "xPORT=$SITE_PORT" "$TMPL_HTML" > "$APACHEDIR/htdocs/index.html"
+	m4_wrap "$TMPL_HTML" "$APACHEDIR/htdocs/index.html"
 	cat > "$APACHEDIR/htdocs/phpinfo.php" <<-EOF
 	<?php
 	
