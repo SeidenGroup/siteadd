@@ -26,7 +26,9 @@ The following flags are taken:
   another site. The other site must exist.
 * `-Y`: If the web server should start automatically. Default.
 * `-N`: If the web server should *not* start automatically.`
-* `-T`: Override the default template directory.
+* `-T`: Override the default template directory. If a path isn't specified
+  (this is done through including a directory separator), then siteadd will
+  treat the name as a subdirectory of `/QOpenSys/pkgs/share/siteadd`.
 
 #### Overriding templates.
 
@@ -35,8 +37,10 @@ The templates are m4 files with certain variables given. Consult the templates
 and script for the variables to use for a custom template.
 
 * `template-httpd.m4`: `SITEDIR/conf/httpd.conf`
-* `template-index.html.m4`: `SITEDIR/htdocs/index.html`
 * `template-fastcgi.m4`: `SITEDIR/fastcgi.conf` (zend enabler)
+* `htodcs`: `SITEDIR/htdocs` (copies)
+  * `htdocs-template` has a list of files without the `.m4` extension to apply
+    an m4 transform to.
 
 ### rmsite
 
