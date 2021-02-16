@@ -45,7 +45,8 @@ m4_wrap() {
 
 MAKE_ETCPHP=no
 AUTOSTART=" -AutoStartY"
-TMPL_DIR="/QOpenSys/pkgs/share/siteadd"
+ROOT_TMPL_DIR="/QOpenSys/pkgs/share/siteadd"
+TMPL_DIR="/QOpenSys/pkgs/share/siteadd/template"
 OLD_SITENAME=""
 
 while getopts ":p:n:T:C:YNI" o; do
@@ -76,7 +77,15 @@ while getopts ":p:n:T:C:YNI" o; do
 			fi
 			;;
 		"T")
-			TMPL_DIR=${OPTARG}
+			# if it has a / then it's a path, otherwise look in template dir
+			case "${OPTARG}" in
+			*/*)
+				TMPL_DIR=${OPTARG}
+				;;
+			*)
+				TMPL_DIR="$ROOT_TMPL_DIR/${OPTARG}"
+				;;
+			esac
 			;;
 		"C")
 			OLD_SITENAME=${OPTARG}
