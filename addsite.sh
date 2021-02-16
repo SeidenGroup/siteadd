@@ -205,7 +205,7 @@ if [ -z "$OLD_SITENAME" ]; then
 		if [ -f "$absolute_html_template" ]; then
 			m4_wrap "$absolute_html_template" "$APACHEDIR/htdocs/$html_template"
 			# we no longer need the m4 template
-			rm "APACHEDIR/htdocs/$html_template.m4"
+			rm "$APACHEDIR/htdocs/$html_template.m4"
 		fi
 	done < "$TMPL_HTDOCS_T"
 fi
