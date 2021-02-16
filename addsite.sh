@@ -197,6 +197,7 @@ m4_wrap "$TMPL_HTTP" "$APACHEDIR/conf/httpd.conf"
 m4_wrap "$TMPL_FCGI" "$APACHEDIR/conf/fastcgi.conf"
 if [ -z "$OLD_SITENAME" ]; then
 	cp -R "$TMPL_HTDOCS/"* "$APACHEDIR/htdocs/"
+	echo " ** Copied new site template"
 	# don't generate this if we have an existing site to copy htdocs from
 	# each file in the htdocs-template file has an m4 template to create it
 	while read -r html_template; do
@@ -204,7 +205,7 @@ if [ -z "$OLD_SITENAME" ]; then
 		if [ -f "$absolute_html_template" ]; then
 			m4_wrap "$absolute_html_template" "$APACHEDIR/htdocs/$html_template"
 			# we no longer need the m4 template
-			rm "$absolute_html_template"
+			rm "APACHEDIR/htdocs/$html_template.m4"
 		fi
 	done < "$TMPL_HTDOCS_T"
 fi
