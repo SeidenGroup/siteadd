@@ -154,7 +154,7 @@ if [ ! -f "$TMPL_FCGI" ]; then
 	echo "The FastCGI template \"$TMPL_FCGI\" doesn't exist."
 	exit 5
 fi
-if [ ! -f "$TMPL_PHPCONF_D" ]; then
+if [ ! -d "$TMPL_PHPCONF_D" ]; then
 	echo "The PHP extension configuration template \"$TMPL_PHPCONF_D\" doesn't exist."
 	exit 16
 fi
