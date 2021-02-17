@@ -43,7 +43,8 @@ usage() {
 }
 
 m4_wrap() {
-	m4 -D "xSITE_NAME=$SITE_NAME" -D "xPHPDIR=$ETCPHPDIR" -D "xWWWDIR=$APACHEDIR" -D "xPORT=$SITE_PORT" "$1" > "$2"
+	# without -P, it's easy to trip up m4 on PHP INIs (refs to builtins)
+	m4 -P -D "xSITE_NAME=$SITE_NAME" -D "xPHPDIR=$ETCPHPDIR" -D "xWWWDIR=$APACHEDIR" -D "xPORT=$SITE_PORT" "$1" > "$2"
 }
 
 MAKE_ETCPHP=no
