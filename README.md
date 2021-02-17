@@ -18,10 +18,11 @@ The following flags are taken:
   and unique (no other applications, including web servers, using it). You can
   use the `netstat` CL command to see what ports are used on your system. For
   example: `-p 8080`.
-* `-I`: If the site should have its own PHP configuration. This is used if you
-  want to use a different set of extensions, for example. The new PHP config
-  will be under the site's `phpconf` folder and copied from the
-  `/QOpenSys/etc/php` directory.
+* `-I`: If the site should have its own PHP configuration. This lets you have
+  a different set of INI files. The PHP INI is derived from a template, which
+  will fill in site-specific variables, and merge the system extension INI
+  directory with the template extension INI directory.
+* `-P`: Overrides the detected version of PHP.
 * `-C`: If the htdocs directory should be populated with the contents of
   another site. The other site must exist.
 * `-Y`: If the web server should start automatically. Default.
