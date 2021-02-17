@@ -245,6 +245,7 @@ fi
 echo " ** Filled in templates"
 
 if [ "$MAKE_ETCPHP" = "yes" ]; then
+	mkdir "$ETCPHPDIR"
 	# Fill in php.ini from template
 	m4_wrap "$TMPL_PHPCONF/php.ini.m4" "$ETCPHPDIR/php.ini"
 	# Copy the system config then merge the temlate configs
