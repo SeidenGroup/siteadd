@@ -30,8 +30,11 @@ usage() {
 	echo "           for IBM i physical file members."
 	echo "  -I: Make a separate directory for PHP INI files."
 	echo "      PHP INIs will then be in /www/sitename/phpconf."
-	echo "      Said INIs will be copied from the shared PHP etc dir."
-	echo "      The default otherwise is to use said shared PHP etc dir."
+	echo "      Said INIs will be copied from the template directory."
+	echo "      The PHP extension configuration will be the system-wide"
+	echo "      configuration with template-specific configuration."
+	echo "      The default otherwise is to use the shared PHP etc dir."
+	echo "  -P: Override the PHP version for INIs. Usually auto-detected."
 	echo "  -C: Copy htdocs from another site. Must exist."
 	echo "  -Y: If the site should start automatically. Default."
 	echo "  -N: If the site should not start automatically."
@@ -48,6 +51,9 @@ AUTOSTART=" -AutoStartY"
 ROOT_TMPL_DIR="/QOpenSys/pkgs/share/siteadd"
 TMPL_DIR="/QOpenSys/pkgs/share/siteadd/template"
 OLD_SITENAME=""
+
+INSTALLED_PHP_VERSION=$(rpm -q --queryformat "%{VERSION}" php-common | sed -E 's/([0-9]+)\.([0-9]+)\..*/\1.\2/g')
+PHP_VERSION="$INSTALLED_PHP_VERSION"
 
 while getopts ":p:n:T:C:YNI" o; do
 	case "${o}" in
@@ -75,6 +81,23 @@ while getopts ":p:n:T:C:YNI" o; do
 				echo "The site name is longer than 10 characters."
 				exit 9
 			fi
+			;;
+		"P")
+			# Filter out only supported versions of PHP
+			case "${OPTARG}" in
+			7.3)
+				PHP_VERSION=7.3
+				;;
+			7.4)
+				PHP_VERSION=7.4
+				;;
+			8.0)
+				PHP_VERSION=8.0
+				;;
+			*)
+				echo "The PHP version is invalid."
+				exit 14
+			esac
 			;;
 		"T")
 			# if it has a / then it's a path, otherwise look in template dir
@@ -119,6 +142,8 @@ fi
 
 TMPL_HTTP="$TMPL_DIR/template-httpd.m4"
 TMPL_FCGI="$TMPL_DIR/template-fastcgi.m4"
+TMPL_PHPCONF="$TMPL_DIR/phpconf-$PHP_VERSION"
+TMPL_PHPCONF_D="$TMPL_DIR/phpconf-$PHP_VERSION/conf.d"
 TMPL_HTDOCS="$TMPL_DIR/htdocs"
 TMPL_HTDOCS_T="$TMPL_DIR/htdocs-templates"
 if [ ! -f "$TMPL_HTTP" ]; then
@@ -129,9 +154,17 @@ if [ ! -f "$TMPL_FCGI" ]; then
 	echo "The FastCGI template \"$TMPL_FCGI\" doesn't exist."
 	exit 5
 fi
+if [ ! -f "$TMPL_PHPCONF_D" ]; then
+	echo "The PHP extension configuration template \"$TMPL_PHPCONF_D\" doesn't exist."
+	exit 16
+fi
+if [ ! -d "$TMPL_PHPCONF" ]; then
+	echo "The PHP configuration template \"$TMPL_PHPCONF\" doesn't exist."
+	exit 15
+fi
 if [ ! -f "$TMPL_HTDOCS_T" ]; then
 	echo "The list of page templates \"$TMPL_HTDOCS_T\" doesn't exist."
-	exit 13
+	exit 
 fi
 if [ ! -d "$TMPL_HTDOCS" ]; then
 	echo "The directory of page templates \"$TMPL_HTDOCS\" doesn't exist."
@@ -212,10 +245,15 @@ fi
 echo " ** Filled in templates"
 
 if [ "$MAKE_ETCPHP" = "yes" ]; then
-	# Basically copy over the existing PHP config
-	# XXX: Do we need to change it
-	cp -R /QOpenSys/etc/php "$ETCPHPDIR"
-	echo " ** Made directories for PHP"
+	# Fill in php.ini from template
+	m4_wrap "$TMPL_PHPCONF/php.ini.m4" "$ETCPHPDIR/php.ini"
+	# Copy the system config then merge the temlate configs
+	# This way, you can override extensions (i.e disable one),
+	# without having to worry about other extensions that can be left alone
+	cp -R "/QOpenSys/etc/php/conf.d" "$ETCPHPDIR/conf.d"
+	cp -R "$TMPL_PHPCONF_D" "$ETCPHPDIR/conf.d"
+	# XXX: Should we make some extension INIs m4 templates, like htdocs?
+	echo " ** Made copnfiguration for PHP"
 fi
 
 # Set authorities (can't set ACLs from PASE) for default HTTP user
