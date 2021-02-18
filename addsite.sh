@@ -47,6 +47,21 @@ m4_wrap() {
 	m4 -P -D "xSITE_NAME=$SITE_NAME" -D "xPHPDIR=$ETCPHPDIR" -D "xWWWDIR=$APACHEDIR" -D "xPORT=$SITE_PORT" "$1" > "$2"
 }
 
+# exit_code file_type file
+check_file() {
+	if [ ! -f "$3" ]; then
+		echo "The $2 \"$3\" doesn't exist."
+		exit $1
+	fi
+}
+
+check_dir() {
+	if [ ! -f "$3" ]; then
+		echo "The $2 \"$3\" doesn't exist."
+		exit $1
+	fi
+}
+
 MAKE_ETCPHP=no
 AUTOSTART=" -AutoStartY"
 ROOT_TMPL_DIR="/QOpenSys/pkgs/share/siteadd"
@@ -147,30 +162,14 @@ TMPL_PHPCONF="$TMPL_DIR/phpconf-$PHP_VERSION"
 TMPL_PHPCONF_D="$TMPL_DIR/phpconf-$PHP_VERSION/conf.d"
 TMPL_HTDOCS="$TMPL_DIR/htdocs"
 TMPL_HTDOCS_T="$TMPL_DIR/htdocs-templates"
-if [ ! -f "$TMPL_HTTP" ]; then
-	echo "The HTTPd template \"$TMPL_HTTP\" doesn't exist."
-	exit 4
-fi
-if [ ! -f "$TMPL_FCGI" ]; then
-	echo "The FastCGI template \"$TMPL_FCGI\" doesn't exist."
-	exit 5
-fi
-if [ ! -d "$TMPL_PHPCONF_D" ]; then
-	echo "The PHP extension configuration template \"$TMPL_PHPCONF_D\" doesn't exist."
-	exit 16
-fi
-if [ ! -d "$TMPL_PHPCONF" ]; then
-	echo "The PHP configuration template \"$TMPL_PHPCONF\" doesn't exist."
-	exit 15
-fi
-if [ ! -f "$TMPL_HTDOCS_T" ]; then
-	echo "The list of page templates \"$TMPL_HTDOCS_T\" doesn't exist."
-	exit 
-fi
-if [ ! -d "$TMPL_HTDOCS" ]; then
-	echo "The directory of page templates \"$TMPL_HTDOCS\" doesn't exist."
-	exit 11
-fi
+
+check_file 4 "httpd.conf template" "$TMPL_HTTP"
+check_file 5 "fastcgi.conf template" "$TMPL_FCGI"
+check_dir 16 "PHP extension configuration template" "$TMPL_PHPCONF_D"
+# this used to be a check for phpconf dir itself, but if conf.d succeeded...
+check_file 15 "PHP configuration template" "$TMPL_PHPCONF/php.ini.m4"
+check_file 13 "list of page templates" "$TMPL_HTDOCS_T"
+check_dir 11 "directory of page templates" "$TMPL_HTDOCS"
 
 if [ -n "$OLD_SITENAME" ] && [ ! -d "/www/$OLD_SITENAME/htdocs" ]; then
 	echo "The old site doesn't exist."
