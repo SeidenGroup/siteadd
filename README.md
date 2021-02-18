@@ -31,6 +31,18 @@ The following flags are taken:
   (this is done through including a directory separator), then siteadd will
   treat the name as a subdirectory of `/QOpenSys/pkgs/share/siteadd`.
 
+For example, to make a site with its own PHP configuration:
+
+```shell
+addshite -p 8080 -n testsite -I
+```
+
+To make the site use the template for legacy database extensions:`
+
+```shell
+addshite -p 8080 -n testsite -I -T template-legacy-db
+```
+
 #### Overriding templates.
 
 The `-T` flag is used to override what templates are used for substitutions.
