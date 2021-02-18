@@ -51,14 +51,14 @@ m4_wrap() {
 check_file() {
 	if [ ! -f "$3" ]; then
 		echo "The $2 \"$3\" doesn't exist."
-		exit $1
+		exit "$1"
 	fi
 }
 
 check_dir() {
 	if [ ! -d "$3" ]; then
 		echo "The $2 \"$3\" doesn't exist."
-		exit $1
+		exit "$1"
 	fi
 }
 
@@ -71,7 +71,7 @@ OLD_SITENAME=""
 INSTALLED_PHP_VERSION=$(rpm -q --queryformat "%{VERSION}" php-common | sed -E 's/([0-9]+)\.([0-9]+)\..*/\1.\2/g')
 PHP_VERSION="$INSTALLED_PHP_VERSION"
 
-while getopts ":p:n:T:C:YNI" o; do
+while getopts ":p:n:T:C:YNIP:" o; do
 	case "${o}" in
 		"p")
 			SITE_PORT=${OPTARG}
