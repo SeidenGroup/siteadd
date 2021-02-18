@@ -251,7 +251,7 @@ if [ "$MAKE_ETCPHP" = "yes" ]; then
 	# Copy the system config then merge the temlate configs
 	# This way, you can override extensions (i.e disable one),
 	# without having to worry about other extensions that can be left alone
-	mkdir -f "$ETCPHPDIR/conf.d/"
+	mkdir "$ETCPHPDIR/conf.d/"
 	cp -R /QOpenSys/etc/php/conf.d/* "$ETCPHPDIR/conf.d/"
 	cp -R "$TMPL_PHPCONF_D/"* "$ETCPHPDIR/conf.d/"
 	# XXX: Should we make some extension INIs m4 templates, like htdocs?
