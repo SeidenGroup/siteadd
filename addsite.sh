@@ -56,7 +56,7 @@ check_file() {
 }
 
 check_dir() {
-	if [ ! -f "$3" ]; then
+	if [ ! -d "$3" ]; then
 		echo "The $2 \"$3\" doesn't exist."
 		exit $1
 	fi
