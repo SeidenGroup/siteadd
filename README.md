@@ -57,7 +57,7 @@ and script for the variables to use for a custom template.
 * `preflight.sh`: Optional. If run, a non-zero return code will fail.
 * `template-httpd.m4`: Filled in as `SITEDIR/conf/httpd.conf`
 * `template-fastcgi.m4`: Filled in as `SITEDIR/fastcgi.conf` (zend enabler)
-* `htodcs`: Filled in as `SITEDIR/htdocs` (copies)
+* `htdocs`: Filled in as `SITEDIR/htdocs` (copies)
   * `htdocs-template` has a list of files without the `.m4` extension to apply
     an m4 transform to.
 * `phpconf-$VERSION`: Filled in as `SITEDIR/phpconf`
