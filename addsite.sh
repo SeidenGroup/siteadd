@@ -181,6 +181,16 @@ if [ "$(uname)" != "OS400" ]; then
 	exit 10
 fi
 
+# If the preflight check exists, run it
+PREFLIGHT="$TMPL_DIR/preflight.sh"
+if [ -f "$PREFLIGHT" ]; then
+	if ! "$PREFLIGHT"; then
+		echo " ** The prelight check failed (exit code $?)"
+	fi
+fi
+
+echo " ** Validity checks finished"
+
 PF_MEMBER="/QSYS.LIB/QUSRSYS.LIB/QATMHINSTC.FILE/$SITE_NAME.MBR"
 # slashes are appended as needed
 APACHEDIR="/www/$SITE_NAME"

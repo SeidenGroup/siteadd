@@ -43,19 +43,25 @@ To make the site use the template for legacy database extensions:`
 addshite -p 8080 -n testsite -I -T template-legacy-db
 ```
 
-#### Overriding templates.
+### rmsite
+
+The only argument taken is the name of the site. It will end the HTTP server,
+unregister the site from the known list of sites, and remove the directory.
+
+## Template structure
 
 The `-T` flag is used to override what templates are used for substitutions.
 The templates are m4 files with certain variables given. Consult the templates
 and script for the variables to use for a custom template.
 
-* `template-httpd.m4`: `SITEDIR/conf/httpd.conf`
-* `template-fastcgi.m4`: `SITEDIR/fastcgi.conf` (zend enabler)
-* `htodcs`: `SITEDIR/htdocs` (copies)
+* `preflight.sh`: Optional. If run, a non-zero return code will fail.
+* `template-httpd.m4`: Filled in as `SITEDIR/conf/httpd.conf`
+* `template-fastcgi.m4`: Filled in as `SITEDIR/fastcgi.conf` (zend enabler)
+* `htodcs`: Filled in as `SITEDIR/htdocs` (copies)
   * `htdocs-template` has a list of files without the `.m4` extension to apply
     an m4 transform to.
-
-### rmsite
-
-The only argument taken is the name of the site. It will end the HTTP server,
-unregister the site from the known list of sites, and remove the directory.
+* `phpconf-$VERSION`: Filled in as `SITEDIR/phpconf`
+  * `php.ini.m4` is filled in as `php.ini`. The system `conf.d` directory is
+    copied to `phpconf/conf.d` and the template files (if any) are copied over.
+    By copying the system `conf.d` directory, it doesn't need to be aware of
+    any new extensions.
