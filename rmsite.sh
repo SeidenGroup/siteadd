@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Removes the site
-# Copyright (C) 2020 Seiden Group
+# Copyright (C) 2020-2021 Seiden Group
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
