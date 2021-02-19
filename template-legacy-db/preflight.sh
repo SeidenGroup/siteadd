@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 if rpm -q --quiet php-ibm_db2; then
 	echo "ibm_db2 isn't installed. Install it with \"yum install php-ibm_db2\"."
 	exit 1

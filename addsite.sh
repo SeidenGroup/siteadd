@@ -186,6 +186,7 @@ PREFLIGHT="$TMPL_DIR/preflight.sh"
 if [ -f "$PREFLIGHT" ]; then
 	if ! "$PREFLIGHT"; then
 		echo " ** The prelight check failed (exit code $?)"
+		exit 17
 	fi
 fi
 
