@@ -200,6 +200,7 @@ if [ "$MAKE_ETCPHP" = "yes" ]; then
 else
 	ETCPHPDIR="/QOpenSys/etc/php"
 fi
+ETCPHPCONFDDIR="$ETCPHPDIR/conf.d"
 
 # these are case-insensitive... very much so
 if [ -e "$PF_MEMBER" ]; then
@@ -262,9 +263,9 @@ if [ "$MAKE_ETCPHP" = "yes" ]; then
 	# Copy the system config then merge the temlate configs
 	# This way, you can override extensions (i.e disable one),
 	# without having to worry about other extensions that can be left alone
-	mkdir "$ETCPHPDIR/conf.d/"
-	cp -R /QOpenSys/etc/php/conf.d/* "$ETCPHPDIR/conf.d/"
-	cp -R "$TMPL_PHPCONF_D/"* "$ETCPHPDIR/conf.d/"
+	mkdir "$ETCPHPCONFDDIR/"
+	cp -R /QOpenSys/etc/php/conf.d/* "$ETCPHPCONFDDIR/"
+	cp -R "$TMPL_PHPCONF_D/"* "$ETCPHPCONFDDIR/"
 	# XXX: Should we make some extension INIs m4 templates, like htdocs?
 	echo " ** Made configuration for PHP"
 fi
@@ -277,6 +278,7 @@ echo " ** Set authorities"
 echo " ** You're done! Tweak the PHP and web server config as you wish."
 echo "    WWW directory (htdocs, conf, logs): $APACHEDIR"
 echo "    PHP config directory: $ETCPHPDIR"
+echo "    PHP extension config directory: $ETCPHPCONFDDIR"
 echo " ** If you want to start this web server now, run the following CL command:"
 echo "    STRTCPSVR SERVER(*HTTP) HTTPSVR($SITE_NAME)"
 echo " ** Want to run that from a PASE shell? Use:"
