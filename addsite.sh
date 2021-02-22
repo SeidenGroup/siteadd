@@ -266,7 +266,7 @@ if [ "$MAKE_ETCPHP" = "yes" ]; then
 	cp -R /QOpenSys/etc/php/conf.d/* "$ETCPHPDIR/conf.d/"
 	cp -R "$TMPL_PHPCONF_D/"* "$ETCPHPDIR/conf.d/"
 	# XXX: Should we make some extension INIs m4 templates, like htdocs?
-	echo " ** Made copnfiguration for PHP"
+	echo " ** Made configuration for PHP"
 fi
 
 # Set authorities (can't set ACLs from PASE) for default HTTP user
