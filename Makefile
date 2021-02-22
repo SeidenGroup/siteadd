@@ -1,6 +1,6 @@
 .PHONY: dist clean test
 
-VERSION := 0.4
+VERSION := 0.5
 
 clean:
 	rm -f *.tar.gz
