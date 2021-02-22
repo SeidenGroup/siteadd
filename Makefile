@@ -7,7 +7,7 @@ clean:
 
 dist:
 	# XXX: hardcodes a lot
-	git archive --prefix=siteadd-$(VERSION)/ --format=tar.gz -o siteadd-$(VERSION).tar.gz HEAD addsite.sh rmsite.sh template/ README.md COPYING
+	git archive --prefix=siteadd-$(VERSION)/ --format=tar.gz -o siteadd-$(VERSION).tar.gz HEAD addsite.sh rmsite.sh template/ template-legacy-db/ README.md COPYING
 
 test:
 	# requires shellcheck, obviously
