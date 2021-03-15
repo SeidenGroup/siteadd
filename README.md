@@ -48,6 +48,16 @@ addshite -p 8080 -n testsite -I -T template-legacy-db
 The only argument taken is the name of the site. It will end the HTTP server,
 unregister the site from the known list of sites, and remove the directory.
 
+### toggle-db
+
+This script toggles between classic and ODBC database extensions for a PHP
+extension configuration directory (by default, the system one).
+
+The following flags are taken:
+
+* `-d`: Optional. The directory to use instead.
+* `-t`: Mandatory. The extension archetype. Use "classic" or "odbc" here.
+
 ## Template structure
 
 The `-T` flag is used to override what templates are used for substitutions.
