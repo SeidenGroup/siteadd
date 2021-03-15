@@ -89,7 +89,7 @@ comment_extension() {
 }
 
 uncomment_extension() {
-	sed -i 's/^\s*;\s*extension=\([A-Za-z0-9_\-\.]*\)$/extension=\1/g' "$1"
+	sed -i 's/^\s*;\s*extension=\([A-Za-z0-9_\-\.]*\).*$/extension=\1/g' "$1"
 }
 
 case "$EXTTYPE" in
