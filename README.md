@@ -34,13 +34,13 @@ The following flags are taken:
 For example, to make a site with its own PHP configuration:
 
 ```shell
-addshite -p 8080 -n testsite -I
+addsite -p 8080 -n testsite -I
 ```
 
 To make the site use the template for legacy database extensions:`
 
 ```shell
-addshite -p 8080 -n testsite -I -T template-legacy-db
+addsite -p 8080 -n testsite -I -T template-legacy-db
 ```
 
 ### rmsite
