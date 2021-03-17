@@ -17,6 +17,12 @@
 
 set -euo pipefail
 
+if [ -x /QOpenSys/pkgs/lib/siteadd/libsiteadd.sh ]; then
+	. /QOpenSys/pkgs/lib/siteadd/libsiteadd.sh --source-only
+else
+	. ./libsiteadd.sh --source-only
+fi
+
 usage() {
 	echo "Usage: $0 [-d directory] -t (classic|odbc)"
 	echo ""
@@ -25,21 +31,6 @@ usage() {
 	echo "                Uses /QOpenSys/etc/php/conf.d by default."
 	echo "  -t ext_type: The extension archetype to use. Either classic or odbc."
 	exit 255
-}
-
-# exit_code file_type file
-check_file() {
-	if [ ! -f "$3" ]; then
-		echo "The $2 \"$3\" doesn't exist."
-		exit "$1"
-	fi
-}
-
-check_dir() {
-	if [ ! -d "$3" ]; then
-		echo "The $2 \"$3\" doesn't exist."
-		exit "$1"
-	fi
 }
 
 SCANDIR="/QOpenSys/etc/php/conf.d"
@@ -59,12 +50,12 @@ while getopts "d:t:" o; do
 				EXTTYPE="odbc"
 				;;
 			*)
-				echo "The extension type is invalid (either odbc or classic)."
+				error_msg "The extension type is invalid (either odbc or classic)."
 				exit 6
 			esac
 			;;
 		*)
-			echo "Unrecognized flag."
+			error_msg "Unrecognized flag."
 			exit 8
 			;;
 	esac
@@ -83,32 +74,23 @@ check_file 3 "PDO_ODBC INI" "$PDO_ODBC_INI"
 check_file 4 "ibm_db2 INI" "$IBM_DB2_INI"
 check_file 5 "PDO_IBM INI" "$PDO_IBM_INI"
 
-# XXX: This is super hacky and could get more than what's needed (or not enough)
-comment_extension() {
-	sed -i 's/^\s*extension=\([A-Za-z0-9_\-\.]*\).*$/; extension=\1/g' "$1"
-}
-
-uncomment_extension() {
-	sed -i 's/^\s*;\s*extension=\([A-Za-z0-9_\-\.]*\).*$/extension=\1/g' "$1"
-}
-
 case "$EXTTYPE" in
 	"odbc")
 		uncomment_extension "$ODBC_INI"
 		uncomment_extension "$PDO_ODBC_INI"
 		comment_extension "$IBM_DB2_INI"
 		comment_extension "$PDO_IBM_INI"
-		echo "ODBC is now enabled for $SCANDIR"
+		banner_msg "ODBC is now enabled for $SCANDIR"
 		;;
 	"classic")
 		comment_extension "$ODBC_INI"
 		comment_extension "$PDO_ODBC_INI"
 		uncomment_extension "$IBM_DB2_INI"
 		uncomment_extension "$PDO_IBM_INI"
-		echo "Classic database is now enabled for $SCANDIR"
+		banner_msg "Classic database is now enabled for $SCANDIR"
 		;;
 	*)
-		echo "The extension type isn't set (use either odbc or classic)."
+		error_msg "The extension type isn't set (use either odbc or classic)."
 		exit 7
 		;;
 esac

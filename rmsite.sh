@@ -17,12 +17,18 @@
 
 set -euo pipefail
 
+if [ -x /QOpenSys/pkgs/lib/siteadd/libsiteadd.sh ]; then
+	. /QOpenSys/pkgs/lib/siteadd/libsiteadd.sh --source-only
+else
+	. ./libsiteadd.sh --source-only
+fi
+
 # Only arg is site name
 
 SITE_NAME=$1
 
 if [ -z "$SITE_NAME" ]; then
-	echo "Need a site name."
+	error_msg "Need a site name."
 	exit 1
 fi
 
@@ -31,16 +37,16 @@ PF_MEMBER="/QSYS.LIB/QUSRSYS.LIB/QATMHINSTC.FILE/$SITE_NAME.MBR"
 APACHEDIR="/www/$SITE_NAME/"
 
 if [ ! -d "$APACHEDIR" ]; then
-	echo "The site doesn't exist."
+	error_msg "The site doesn't exist."
 	exit 2
 fi
 
-echo " ** Ending..."
+banner_msg "Ending..."
 # this is || true in case the server isn't running already
 system ENDTCPSVR "SERVER(*HTTP)" "HTTPSVR($SITE_NAME)" || true
 
-echo " ** Deleting..."
+banner_msg "Deleting..."
 
 rm "$PF_MEMBER"
 rm -rf "$APACHEDIR"
-echo " ** Done."
+banner_msg "Done."

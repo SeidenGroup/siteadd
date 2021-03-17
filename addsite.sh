@@ -17,6 +17,12 @@
 
 set -euo pipefail
 
+if [ -x /QOpenSys/pkgs/lib/siteadd/libsiteadd.sh ]; then
+	. /QOpenSys/pkgs/lib/siteadd/libsiteadd.sh --source-only
+else
+	. ./libsiteadd.sh --source-only
+fi
+
 usage() {
 	echo "Usage: $0 -p port -n site_name [-C old_site] [-T template_directory] [-I] [-Y|-N]"
 	echo ""
@@ -42,26 +48,6 @@ usage() {
 	exit 255
 }
 
-m4_wrap() {
-	# without -P, it's easy to trip up m4 on PHP INIs (refs to builtins)
-	m4 -P -D "xSITE_NAME=$SITE_NAME" -D "xPHPDIR=$ETCPHPDIR" -D "xWWWDIR=$APACHEDIR" -D "xPORT=$SITE_PORT" "$1" > "$2"
-}
-
-# exit_code file_type file
-check_file() {
-	if [ ! -f "$3" ]; then
-		echo "The $2 \"$3\" doesn't exist."
-		exit "$1"
-	fi
-}
-
-check_dir() {
-	if [ ! -d "$3" ]; then
-		echo "The $2 \"$3\" doesn't exist."
-		exit "$1"
-	fi
-}
-
 MAKE_ETCPHP=no
 AUTOSTART=" -AutoStartY"
 ROOT_TMPL_DIR="/QOpenSys/pkgs/share/siteadd"
@@ -76,25 +62,25 @@ while getopts ":p:n:T:C:YNIP:" o; do
 		"p")
 			SITE_PORT=${OPTARG}
 			if ! [[ "$SITE_PORT" =~ ^[0-9]*$ ]] ; then
-				echo "The site port isn't a number."
+				error_msg "The site port isn't a number."
 				exit 6
 			fi
 			# above regex forces positive integer, so negative can't happen
 			if [ "$SITE_PORT" -gt 65535 ]; then
 				# max port number
-				echo "The site port is greater than 65535."
+				error_msg "The site port is greater than 65535."
 				exit 7
 			fi
 			;;
 		"n")
 			SITE_NAME=${OPTARG}
 			if [ -z "${#SITE_NAME}" ]; then
-				echo "The site name is empty."
+				error_msg "The site name is empty."
 				exit 8
 			fi
 			# XXX: What limitations does HTTPA have on names?
 			if [ "${#SITE_NAME}" -gt 10 ]; then
-				echo "The site name is longer than 10 characters."
+				error_msg "The site name is longer than 10 characters."
 				exit 9
 			fi
 			;;
@@ -111,7 +97,7 @@ while getopts ":p:n:T:C:YNIP:" o; do
 				PHP_VERSION=8.0
 				;;
 			*)
-				echo "The PHP version is invalid."
+				error_msg "The PHP version is invalid."
 				exit 14
 			esac
 			;;
@@ -172,12 +158,12 @@ check_file 13 "list of page templates" "$TMPL_HTDOCS_T"
 check_dir 11 "directory of page templates" "$TMPL_HTDOCS"
 
 if [ -n "$OLD_SITENAME" ] && [ ! -d "/www/$OLD_SITENAME/htdocs" ]; then
-	echo "The old site doesn't exist."
+	error_msg "The old site doesn't exist."
 	exit 12
 fi
 
 if [ "$(uname)" != "OS400" ]; then
-	echo "Hey, this isn't i!"
+	error_msg "Hey, this isn't i!"
 	exit 10
 fi
 
@@ -185,12 +171,12 @@ fi
 PREFLIGHT="$TMPL_DIR/preflight.sh"
 if [ -f "$PREFLIGHT" ]; then
 	if ! "$PREFLIGHT"; then
-		echo " ** The prelight check failed (exit code $?)"
+		error_msg " ** The prelight check failed (exit code $?)"
 		exit 17
 	fi
 fi
 
-echo " ** Validity checks finished"
+banner_msg "Validity checks finished"
 
 PF_MEMBER="/QSYS.LIB/QUSRSYS.LIB/QATMHINSTC.FILE/$SITE_NAME.MBR"
 # slashes are appended as needed
@@ -204,45 +190,45 @@ ETCPHPCONFDDIR="$ETCPHPDIR/conf.d"
 
 # these are case-insensitive... very much so
 if [ -e "$PF_MEMBER" ]; then
-	echo "The site already is in the physical file."
+	error_msg "The site already is in the physical file."
 	exit 1
 fi
 
 if [ -d "$APACHEDIR" ]; then
-	echo "The site already has the IFS WWW directory."
+	error_msg "The site already has the IFS WWW directory."
 	exit 2
 fi
 
 # XXX: Is this the convention we want to rely on?
 if [ -d "$ETCPHPDIR" ] && [ "$MAKE_ETCPHP" = "yes" ]; then
-	echo "The site already has the IFS PHP directory."
+	error_msg "The site already has the IFS PHP directory."
 	exit 3
 fi
-echo " ** Verified existing config"
+banner_msg "Verified existing config"
 
 # Create entries 
 system "addpfm file(qusrsys/qatmhinstc) mbr($SITE_NAME)"
 Rfile -w "$PF_MEMBER" << EOF
 -apache -d /www/$SITE_NAME -f conf/httpd.conf$AUTOSTART
 EOF
-echo " ** Added PFM for HTTPd"
+banner_msg "Added PFM for HTTPd"
 
 # Create /www directory
 for dir in {logs,conf,htdocs}; do
 	mkdir -p "$APACHEDIR/$dir"
 done
-echo " ** Made directories for web server"
+banner_msg "Made directories for web server"
 
 if [ -n "$OLD_SITENAME" ]; then
 	cp -R "/www/$OLD_SITENAME/htdocs/"* "$APACHEDIR/htdocs/"
-	echo " ** Copied old site documents"
+	banner_msg "Copied old site documents"
 fi
 
 m4_wrap "$TMPL_HTTP" "$APACHEDIR/conf/httpd.conf"
 m4_wrap "$TMPL_FCGI" "$APACHEDIR/conf/fastcgi.conf"
 if [ -z "$OLD_SITENAME" ]; then
 	cp -R "$TMPL_HTDOCS/"* "$APACHEDIR/htdocs/"
-	echo " ** Copied new site template"
+	banner_msg "Copied new site template"
 	# don't generate this if we have an existing site to copy htdocs from
 	# each file in the htdocs-template file has an m4 template to create it
 	while read -r html_template; do
@@ -254,7 +240,7 @@ if [ -z "$OLD_SITENAME" ]; then
 		fi
 	done < "$TMPL_HTDOCS_T"
 fi
-echo " ** Filled in templates"
+banner_msg "Filled in templates"
 
 if [ "$MAKE_ETCPHP" = "yes" ]; then
 	mkdir "$ETCPHPDIR"
@@ -267,19 +253,19 @@ if [ "$MAKE_ETCPHP" = "yes" ]; then
 	cp -R /QOpenSys/etc/php/conf.d/* "$ETCPHPCONFDDIR/"
 	cp -R "$TMPL_PHPCONF_D/"* "$ETCPHPCONFDDIR/"
 	# XXX: Should we make some extension INIs m4 templates, like htdocs?
-	echo " ** Made configuration for PHP"
+	banner_msg "Made configuration for PHP"
 fi
 
 # Set authorities (can't set ACLs from PASE) for default HTTP user
 # XXX: make changeable?
 system "chgaut obj('$APACHEDIR') user(qtmhhttp) dtaaut(*rwx) objaut(*all) subtree(*all)"
-echo " ** Set authorities"
+banner_msg "Set authorities"
 
-echo " ** You're done! Tweak the PHP and web server config as you wish."
-echo "    WWW directory (htdocs, conf, logs): $APACHEDIR"
-echo "    PHP config directory: $ETCPHPDIR"
-echo "    PHP extension config directory: $ETCPHPCONFDDIR"
-echo " ** If you want to start this web server now, run the following CL command:"
-echo "    STRTCPSVR SERVER(*HTTP) HTTPSVR($SITE_NAME)"
-echo " ** Want to run that from a PASE shell? Use:"
-echo "    system STRTCPSVR \"SERVER(*HTTP)\" \"HTTPSVR($SITE_NAME)\""
+banner_msg "You're done! Tweak the PHP and web server config as you wish."
+indent_msg "WWW directory (htdocs, conf, logs): $APACHEDIR"
+indent_msg "PHP config directory: $ETCPHPDIR"
+indent_msg "PHP extension config directory: $ETCPHPCONFDDIR"
+banner_msg "If you want to start this web server now, run the following CL command:"
+indent_msg "STRTCPSVR SERVER(*HTTP) HTTPSVR($SITE_NAME)"
+banner_msg "Want to run that from a PASE shell? Use:"
+indent_msg "system STRTCPSVR \"SERVER(*HTTP)\" \"HTTPSVR($SITE_NAME)\""
