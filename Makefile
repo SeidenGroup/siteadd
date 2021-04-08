@@ -1,15 +1,25 @@
-.PHONY: dist clean test install
+.PHONY: all dist clean test install
+
+CC := gcc
+CFLAGS := -std=gnu11 -Wall -Werror -gxcoff -maix64 -O2
+LDFLAGS :=
+
+QTI_PGM := qtimzon2iana
+QTI_OBJ := qtimzon2iana/qwcrtvtz.o qtimzon2iana/qwcrsval.o qtimzon2iana/ebcdic.o qtimzon2iana/main.o
+QTI_DEPS := qtimzon2iana/qwcrtvtz.h qtimzon2iana/ebcdic.h
 
 # XXX: Hardcoded in scripts
 PREFIX := /QOpenSys/pkgs
 VERSION := 0.5.1
 
+all: $(QTI_PGM)
+
 clean:
-	rm -f *.tar.gz
+	rm -f *.tar.gz $(QTI_PGM) $(QTI_OBJ)
 
 dist:
 	# XXX: hardcodes a lot
-	git archive --prefix=siteadd-$(VERSION)/ --format=tar.gz -o siteadd-$(VERSION).tar.gz HEAD *.sh template/ template-legacy-db/ README.md COPYING
+	git archive --prefix=siteadd-$(VERSION)/ --format=tar.gz -o siteadd-$(VERSION).tar.gz HEAD *.sh qtimzon2iana/ template/ template-legacy-db/ README.md COPYING
 
 test:
 	# requires shellcheck, obviously
@@ -21,12 +31,13 @@ test:
 	 toggle-db-script.sh \
 	 toggle-autostart.sh
 
-install:
+install: $(QTI_PGM))
 	echo "Installing to $(DESTDIR)$(PREFIX)"
 	install -d -m 755 addsite.sh $(DESTDIR)$(PREFIX)/bin/addsite
 	install -d -m 755 rmsite.sh $(DESTDIR)$(PREFIX)/bin/rmsite
 	install -d -m 755 toggle-db-script.sh $(DESTDIR)$(PREFIX)/bin/toggle-db
 	install -d -m 755 toggle-autostart.sh $(DESTDIR)$(PREFIX)/bin/toggle-autostart
+	install -d -m 755 $(QTI_PGM) $(DESTDIR)$(PREFIX)/bin/qtimzon2iana
 	install -d -m 755 libsiteadd.sh $(DESTDIR)$(PREFIX)/lib/siteadd/libsiteadd.sh
 	# Default template
 	install -D -m 644 template/template-httpd.m4 $(DESTDIR)$(PREFIX)/share/siteadd/template/template-httpd.m4
@@ -61,3 +72,8 @@ install:
 	install -D -m 644 template-legacy-db/phpconf-8.0/conf.d/99-ibm_db2.ini $(DESTDIR)$(PREFIX)/share/siteadd/template-legacy-db/phpconf-8.0/conf.d/99-ibm_db2.ini
 	install -D -m 644 template-legacy-db/phpconf-8.0/conf.d/99-pdo_ibm.ini $(DESTDIR)$(PREFIX)/share/siteadd/template-legacy-db/phpconf-8.0/conf.d/30-pdo_idm.ini
 
+$(QTI_OBJ): %.o : %.c $(QTI_DEPS)
+        $(CC) -c -o $@ $< $(CFLAGS)
+
+$(QTI_PGM): $(QTI_OBJ)
+        $(CC) -o $@ $^ /QOpenSys/usr/lib/libiconv.a $(CFLAGS) $(LDFLAGS)

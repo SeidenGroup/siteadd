@@ -69,6 +69,15 @@ The following flags are taken:
 * `-Y`: Optional. The site should start on IPL.
 * `-N`: Optional. The site shouldn't start on IPL.
 
+### qtimzon2iana
+
+Internal program used by siteadd for converting IBM i `*TIMZON` objects to
+their IANA zoneinfo names, but generally useful.
+
+Takes IBM i time zone names as arguments and writes the IANA names back.
+If no names are given, then use the system value `QTIMZON`.
+Use `*ALL` to write out all names.
+
 ## Template structure
 
 The `-T` flag is used to override what templates are used for substitutions.
