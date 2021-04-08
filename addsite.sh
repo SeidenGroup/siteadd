@@ -261,6 +261,15 @@ fi
 system "chgaut obj('$APACHEDIR') user(qtmhhttp) dtaaut(*rwx) objaut(*all) subtree(*all)"
 banner_msg "Set authorities"
 
+# Final step: If the postflight check exists, run it
+POSTFLIGHT="$TMPL_DIR/postflight.sh"
+if [ -f "$POSTFLIGHT" ]; then
+	if ! "$POSTFLIGHT"; then
+		error_msg " ** The postflight check failed (exit code $?)"
+		exit 18
+	fi
+fi
+
 banner_msg "You're done! Tweak the PHP and web server config as you wish."
 indent_msg "WWW directory (htdocs, conf, logs): $APACHEDIR"
 indent_msg "PHP config directory: $ETCPHPDIR"
