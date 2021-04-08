@@ -4,7 +4,7 @@ CC := gcc
 CFLAGS := -std=gnu11 -Wall -Werror -gxcoff -maix64 -O2
 LDFLAGS :=
 
-QTI_PGM := qtimzon2iana
+QTI_PGM := qtimzon2iana/qtimzon2iana
 QTI_OBJ := qtimzon2iana/qwcrtvtz.o qtimzon2iana/qwcrsval.o qtimzon2iana/ebcdic.o qtimzon2iana/main.o
 QTI_DEPS := qtimzon2iana/qwcrtvtz.h qtimzon2iana/ebcdic.h
 
