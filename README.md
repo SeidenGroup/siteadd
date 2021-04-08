@@ -58,6 +58,17 @@ The following flags are taken:
 * `-d`: Optional. The directory to use instead.
 * `-t`: Mandatory. The extension archetype. Use "classic" or "odbc" here.
 
+### toggle-autostart
+
+Displays or sets if an Apache web server should start on IPL. Only displays
+by default.
+
+The following flags are taken:
+
+* `-n`: Mandatory. The site's name.
+* `-Y`: Optional. The site should start on IPL.
+* `-N`: Optional. The site shouldn't start on IPL.
+
 ## Template structure
 
 The `-T` flag is used to override what templates are used for substitutions.

@@ -14,15 +14,19 @@ dist:
 test:
 	# requires shellcheck, obviously
 	# (it's Haskell, so don't expect it on i anytime soon)
-	shellcheck addsite.sh
-	shellcheck rmsite.sh
-	shellcheck toggle-db-script.sh
+	# And ignore SC1091 since it'll complain about a path that only exists when installed on i
+	shellcheck -e SC1091 libsiteadd.sh \
+	 addsite.sh \
+	 rmsite.sh \
+	 toggle-db-script.sh \
+	 toggle-autostart.sh
 
 install:
 	echo "Installing to $(DESTDIR)$(PREFIX)"
 	install -d -m 755 addsite.sh $(DESTDIR)$(PREFIX)/bin/addsite
 	install -d -m 755 rmsite.sh $(DESTDIR)$(PREFIX)/bin/rmsite
 	install -d -m 755 toggle-db-script.sh $(DESTDIR)$(PREFIX)/bin/toggle-db
+	install -d -m 755 toggle-autostart.sh $(DESTDIR)$(PREFIX)/bin/toggle-autostart
 	install -d -m 755 libsiteadd.sh $(DESTDIR)$(PREFIX)/lib/siteadd/libsiteadd.sh
 	# Default template
 	install -D -m 644 template/template-httpd.m4 $(DESTDIR)$(PREFIX)/share/siteadd/template/template-httpd.m4
