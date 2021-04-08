@@ -73,7 +73,7 @@ install: $(QTI_PGM))
 	install -D -m 644 template-legacy-db/phpconf-8.0/conf.d/99-pdo_ibm.ini $(DESTDIR)$(PREFIX)/share/siteadd/template-legacy-db/phpconf-8.0/conf.d/30-pdo_idm.ini
 
 $(QTI_OBJ): %.o : %.c $(QTI_DEPS)
-        $(CC) -c -o $@ $< $(CFLAGS)
+	$(CC) -c -o $@ $< $(CFLAGS)
 
 $(QTI_PGM): $(QTI_OBJ)
-        $(CC) -o $@ $^ /QOpenSys/usr/lib/libiconv.a $(CFLAGS) $(LDFLAGS)
+	$(CC) -o $@ $^ /QOpenSys/usr/lib/libiconv.a $(CFLAGS) $(LDFLAGS)
