@@ -4,7 +4,17 @@ siteadd makes adding PHP-based websites to Apache simple.
 * **Easy**: All you need for a working PHP-based site is the name and port.
 * **Flexible**: Use a custom PHP configuration per-site.
 
-siteadd is developed by Seiden Group.
+Additional tools are provided for easy management of sites.
+siteadd is open source software developed by Seiden Group.
+
+## Notes on licensing
+
+siteadd is licensed under an open source license (GPLv3), but this only affects
+the code tagged with it. **Templates can be freely derived and shared**,
+without worrying about if the open source license applies to your own template
+or application. Our intent with this structure is to make sure siteadd can be
+improved by the community, while allowing ISVs and consultants to not worry
+about their domain-specific/proprietary knowledge.
 
 ## Usage
 
