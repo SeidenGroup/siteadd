@@ -1,1 +1,5 @@
+# Distribution files
 *.tar.gz
+# C program objects
+*.o
+qtimzon2iana/qtimzon2iana
