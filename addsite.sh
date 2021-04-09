@@ -19,8 +19,12 @@ set -euo pipefail
 
 if [ -x /QOpenSys/pkgs/lib/siteadd/libsiteadd.sh ]; then
 	. /QOpenSys/pkgs/lib/siteadd/libsiteadd.sh --source-only
+	# Since it's installed, assume it's on PATH
+	QTIMZON2IANA=qtimzon2iana
 else
 	. ./libsiteadd.sh --source-only
+	# Use the local build
+	QTIMZON2IANA=./qtimzon2iana/qtimzon2iana
 fi
 
 usage() {
@@ -177,6 +181,13 @@ if [ -f "$PREFLIGHT" ]; then
 fi
 
 banner_msg "Validity checks finished"
+
+# Gather the timezone, since TZ is set NOT the IANA values under PASE
+# (at least by default); we have a program to gather the current *TIMZON
+# and the IANA name associated with it. PHP has its own built-in TZ DB.
+# XXX: Should we also set TZ in the FastCGI config?
+TIMEZONE=$($QTIMZON2IANA || echo "UTC")
+banner_msg "Got the timezone ($TIMEZONE)"
 
 PF_MEMBER="/QSYS.LIB/QUSRSYS.LIB/QATMHINSTC.FILE/$SITE_NAME.MBR"
 # slashes are appended as needed
