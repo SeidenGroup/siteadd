@@ -289,3 +289,8 @@ banner_msg "If you want to start this web server now, run the following CL comma
 indent_msg "STRTCPSVR SERVER(*HTTP) HTTPSVR($SITE_NAME)"
 banner_msg "Want to run that from a PASE shell? Use:"
 indent_msg "system STRTCPSVR \"SERVER(*HTTP)\" \"HTTPSVR($SITE_NAME)\""
+# Only relevant with custom PHP config for site
+if [ "$MAKE_ETCPHP" = "yes" ]; then
+	banner_msg "Want to run PHP CLI programs with your server's configuration? Use the shell command:"
+	indent_msg "PHPRC=\"$ETCPHPDIR\" PHP_INI_SCAN_DIR=\"$ETCPHPCONFDDIR\" php"
+fi
