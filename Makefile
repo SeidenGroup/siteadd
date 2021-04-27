@@ -31,7 +31,7 @@ test:
 	 toggle-db-script.sh \
 	 toggle-autostart.sh
 
-install: $(QTI_PGM))
+install: $(QTI_PGM)
 	echo "Installing to $(DESTDIR)$(PREFIX)"
 	install -d -m 755 addsite.sh $(DESTDIR)$(PREFIX)/bin/addsite
 	install -d -m 755 rmsite.sh $(DESTDIR)$(PREFIX)/bin/rmsite
