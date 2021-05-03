@@ -28,6 +28,9 @@ The following flags are taken:
   and unique (no other applications, including web servers, using it). You can
   use the `netstat` CL command to see what ports are used on your system. For
   example: `-p 8080`.
+* `-f`: if the port requested is already being listened on, use it anyways
+  instead of stopping. Useful for if you'll change the required settings after
+  or if the configuration file is just for show.
 * `-I`: If the site should have its own PHP configuration. This lets you have
   a different set of INI files. The PHP INI is derived from a template, which
   will fill in site-specific variables, and merge the system extension INI

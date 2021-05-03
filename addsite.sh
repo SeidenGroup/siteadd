@@ -28,7 +28,7 @@ else
 fi
 
 usage() {
-	echo "Usage: $0 -p port -n site_name [-C old_site] [-T template_directory] [-I] [-Y|-N]"
+	echo "Usage: $0 -p port -n site_name [-C old_site] [-T template_directory] [-I] [-f] [-Y|-N]"
 	echo ""
 	echo "Simplest usage: $0 -p port -n site_name"
 	echo ""
@@ -57,11 +57,12 @@ AUTOSTART=" -AutoStartY"
 ROOT_TMPL_DIR="/QOpenSys/pkgs/share/siteadd"
 TMPL_DIR="/QOpenSys/pkgs/share/siteadd/template"
 OLD_SITENAME=""
+FORCE_PORT=no
 
 INSTALLED_PHP_VERSION=$(rpm -q --queryformat "%{VERSION}" php-common | sed -E 's/([0-9]+)\.([0-9]+)\..*/\1.\2/g')
 PHP_VERSION="$INSTALLED_PHP_VERSION"
 
-while getopts ":p:n:T:C:YNIP:" o; do
+while getopts ":p:n:T:C:YNfIP:" o; do
 	case "${o}" in
 		"p")
 			SITE_PORT=${OPTARG}
@@ -75,6 +76,13 @@ while getopts ":p:n:T:C:YNIP:" o; do
 				error_msg "The site port is greater than 65535."
 				exit 7
 			fi
+			;;
+		"f")
+			# While we can not use the port if it's already being
+			# listened on by something, we give users the choice to
+			# do so anyways, in case it's just for show or if they
+			# would make the changes afterwards.
+			FORCE_PORT=yes
 			;;
 		"n")
 			SITE_NAME=${OPTARG}
@@ -178,6 +186,11 @@ if [ -f "$PREFLIGHT" ]; then
 		error_msg " ** The preflight check failed (exit code $?)"
 		exit 17
 	fi
+fi
+
+if [ "$FORCE_PORT" = "no" ] && ! canlisten "$PORT"; then
+	error_msg "The port is already being listened on; use -f to use this port anyways."
+	exit 19
 fi
 
 banner_msg "Validity checks finished"
