@@ -19,7 +19,7 @@ clean:
 
 dist:
 	# XXX: hardcodes a lot
-	git archive --prefix=siteadd-$(VERSION)/ --format=tar.gz -o siteadd-$(VERSION).tar.gz HEAD *.sh qtimzon2iana/ template/ template-legacy-db/ README.md COPYING
+	git archive --prefix=siteadd-$(VERSION)/ --format=tar.gz -o siteadd-$(VERSION).tar.gz HEAD *.sh *.php qtimzon2iana/ template/ template-legacy-db/ README.md COPYING
 
 test:
 	# requires shellcheck, obviously
@@ -39,6 +39,7 @@ install: $(QTI_PGM)
 	install -d -m 755 toggle-autostart.sh $(DESTDIR)$(PREFIX)/bin/toggle-autostart
 	install -d -m 755 $(QTI_PGM) $(DESTDIR)$(PREFIX)/bin/qtimzon2iana
 	install -d -m 755 libsiteadd.sh $(DESTDIR)$(PREFIX)/lib/siteadd/libsiteadd.sh
+	install -d -m 755 canlisten.php $(DESTDIR)$(PREFIX)/bin/canlisten
 	# Default template
 	install -D -m 644 template/template-httpd.m4 $(DESTDIR)$(PREFIX)/share/siteadd/template/template-httpd.m4
 	install -D -m 644 template/template-fastcgi.m4 $(DESTDIR)$(PREFIX)/share/siteadd/template/template-fastcgi.m4
