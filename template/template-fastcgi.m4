@@ -6,6 +6,11 @@ IpcDir xWWWDIR/logs
 
 ; notes
 
+; Uncomment for basic auth users. This is because Apache will assume the profile of the authenticated user.
+; Do not use otherwise, as it will make the socket accessible to other users.
+; see https://library.roguewave.com/display/SUPPORT/Grant+IBM+i+user+profiles+permissions+to+access+PHP+when+using+Basic+Authentication
+; IpcPublic *RWX
+
 ; set US English locale to specify Unicode
 ; see https://www.ibm.com/support/knowledgecenter/ssw_ibm_i_74/apis/pase_locales.htm
 ; for using your own language's UTF-8 locale
