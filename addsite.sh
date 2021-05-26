@@ -298,6 +298,10 @@ banner_msg "You're done! Tweak the PHP and web server config as you wish."
 indent_msg "WWW directory (htdocs, conf, logs): $APACHEDIR"
 indent_msg "PHP config directory: $ETCPHPDIR"
 indent_msg "PHP extension config directory: $ETCPHPCONFDDIR"
+# XXX: This assumes the hostname is set. It's the easiest method we can assume
+# because snarfing the hostname and default IP address is more effort. Priority
+# when it becomes a problem.
+indent_msg "URL: http://$(hostname):$SITE_PORT"
 banner_msg "If you want to start this web server now, run the following CL command:"
 indent_msg "STRTCPSVR SERVER(*HTTP) HTTPSVR($SITE_NAME)"
 banner_msg "Want to run that from a PASE shell? Use:"
