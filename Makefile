@@ -10,7 +10,7 @@ QTI_DEPS := qtimzon2iana/qwcrtvtz.h qtimzon2iana/ebcdic.h
 
 # XXX: Hardcoded in scripts
 PREFIX := /QOpenSys/pkgs
-VERSION := 0.6
+VERSION := 0.6.1
 
 all: $(QTI_PGM)
 
@@ -19,7 +19,7 @@ clean:
 
 dist:
 	# XXX: hardcodes a lot
-	git archive --prefix=siteadd-$(VERSION)/ --format=tar.gz -o siteadd-$(VERSION).tar.gz HEAD *.sh *.php qtimzon2iana/ template/ template-legacy-db/ README.md COPYING
+	git archive --prefix=siteadd-$(VERSION)/ --format=tar.gz -o siteadd-$(VERSION).tar.gz HEAD *.sh *.php qtimzon2iana/ template/ template-legacy-db/ README.md COPYING Makefile
 
 test:
 	# requires shellcheck, obviously
@@ -33,13 +33,13 @@ test:
 
 install: $(QTI_PGM)
 	echo "Installing to $(DESTDIR)$(PREFIX)"
-	install -d -m 755 addsite.sh $(DESTDIR)$(PREFIX)/bin/addsite
-	install -d -m 755 rmsite.sh $(DESTDIR)$(PREFIX)/bin/rmsite
-	install -d -m 755 toggle-db-script.sh $(DESTDIR)$(PREFIX)/bin/toggle-db
-	install -d -m 755 toggle-autostart.sh $(DESTDIR)$(PREFIX)/bin/toggle-autostart
-	install -d -m 755 $(QTI_PGM) $(DESTDIR)$(PREFIX)/bin/qtimzon2iana
-	install -d -m 755 libsiteadd.sh $(DESTDIR)$(PREFIX)/lib/siteadd/libsiteadd.sh
-	install -d -m 755 canlisten.php $(DESTDIR)$(PREFIX)/bin/canlisten
+	install -D -m 755 addsite.sh $(DESTDIR)$(PREFIX)/bin/addsite
+	install -D -m 755 rmsite.sh $(DESTDIR)$(PREFIX)/bin/rmsite
+	install -D -m 755 toggle-db-script.sh $(DESTDIR)$(PREFIX)/bin/toggle-db
+	install -D -m 755 toggle-autostart.sh $(DESTDIR)$(PREFIX)/bin/toggle-autostart
+	install -D -m 755 $(QTI_PGM) $(DESTDIR)$(PREFIX)/bin/qtimzon2iana
+	install -D -m 755 libsiteadd.sh $(DESTDIR)$(PREFIX)/lib/siteadd/libsiteadd.sh
+	install -D -m 755 canlisten.php $(DESTDIR)$(PREFIX)/bin/canlisten
 	# Default template
 	install -D -m 644 template/template-httpd.m4 $(DESTDIR)$(PREFIX)/share/siteadd/template/template-httpd.m4
 	install -D -m 644 template/template-fastcgi.m4 $(DESTDIR)$(PREFIX)/share/siteadd/template/template-fastcgi.m4
