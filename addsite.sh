@@ -188,7 +188,7 @@ if [ -f "$PREFLIGHT" ]; then
 	fi
 fi
 
-if [ "$FORCE_PORT" = "no" ] && ! canlisten "$PORT"; then
+if [ "$FORCE_PORT" = "no" ] && ! canlisten "$SITE_PORT"; then
 	error_msg "The port is already being listened on; use -f to use this port anyways."
 	exit 19
 fi
