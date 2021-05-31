@@ -21,10 +21,12 @@ if [ -x /QOpenSys/pkgs/lib/siteadd/libsiteadd.sh ]; then
 	. /QOpenSys/pkgs/lib/siteadd/libsiteadd.sh --source-only
 	# Since it's installed, assume it's on PATH
 	QTIMZON2IANA=qtimzon2iana
+	CANLISTEN=canlisten
 else
 	. ./libsiteadd.sh --source-only
 	# Use the local build
 	QTIMZON2IANA=./qtimzon2iana/qtimzon2iana
+	CANLISTEN=./canlisten.php
 fi
 
 usage() {
@@ -188,7 +190,7 @@ if [ -f "$PREFLIGHT" ]; then
 	fi
 fi
 
-if [ "$FORCE_PORT" = "no" ] && ! canlisten "$SITE_PORT"; then
+if [ "$FORCE_PORT" = "no" ] && ! $CANLISTEN "$SITE_PORT"; then
 	error_msg "The port is already being listened on; use -f to use this port anyways."
 	exit 19
 fi
