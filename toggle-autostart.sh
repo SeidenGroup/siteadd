@@ -42,16 +42,6 @@ while getopts "n:YN" o; do
 	case "${o}" in
 		"n")
 			SITE_NAME="$OPTARG"
-			if ! [[ "$SITE_PORT" =~ ^[0-9]*$ ]] ; then
-				error_msg "The site port isn't a number."
-				exit 6
-			fi
-			# above regex forces positive integer, so negative can't happen
-			if [ "$SITE_PORT" -gt 65535 ]; then
-				# max port number
-				error_msg "The site port is greater than 65535."
-				exit 7
-			fi
 			;;
 		"Y")
 			TOGGLE_MODE="enable"
@@ -69,6 +59,7 @@ shift $((OPTIND-1))
 
 if [ -z "$SITE_NAME" ]; then
 	banner_msg "The site name wasn't provided."
+	exit 2
 fi
 
 PF_MEMBER="/QSYS.LIB/QUSRSYS.LIB/QATMHINSTC.FILE/$SITE_NAME.MBR"
