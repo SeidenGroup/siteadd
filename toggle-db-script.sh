@@ -29,7 +29,7 @@ usage() {
 	echo "Options:"
 	echo "  -d directory: The conf.d directory with the INI files."
 	echo "                Uses /QOpenSys/etc/php/conf.d by default."
-	echo "  -t ext_type: The extension archetype to use. Either classic or odbc."
+	echo "  -t ext_type: The extension archetype to use. Either classic, odbc, or both."
 	exit 255
 }
 
@@ -43,6 +43,9 @@ while getopts "d:t:" o; do
 			;;
 		"t")
 			case "${OPTARG}" in
+			both)
+				EXTTYPE="both"
+				;;
 			classic)
 				EXTTYPE="classic"
 				;;
@@ -50,7 +53,7 @@ while getopts "d:t:" o; do
 				EXTTYPE="odbc"
 				;;
 			*)
-				error_msg "The extension type is invalid (either odbc or classic)."
+				error_msg "The extension type is invalid (must be classic, odbc, or both)."
 				exit 6
 			esac
 			;;
@@ -75,6 +78,13 @@ check_file 4 "ibm_db2 INI" "$IBM_DB2_INI"
 check_file 5 "PDO_IBM INI" "$PDO_IBM_INI"
 
 case "$EXTTYPE" in
+	"both")
+		uncomment_extension "$ODBC_INI"
+		uncomment_extension "$PDO_ODBC_INI"
+		uncomment_extension "$IBM_DB2_INI"
+		uncomment_extension "$PDO_IBM_INI"
+		banner_msg "Both ODBC and classic database are now enabled for $SCANDIR"
+		;;
 	"odbc")
 		uncomment_extension "$ODBC_INI"
 		uncomment_extension "$PDO_ODBC_INI"
