@@ -50,6 +50,12 @@ For example, to make a site with its own PHP configuration:
 addsite -p 8080 -n testsite -I
 ```
 
+To make the site use the template for legacy database extensions:`
+
+```shell
+addsite -p 8080 -n testsite -I -T template-legacy-db
+```
+
 ### rmsite
 
 The only argument taken is the name of the site. It will end the HTTP server,
