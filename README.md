@@ -34,7 +34,10 @@ The following flags are taken:
 * `-I`: If the site should have its own PHP configuration. This lets you have
   a different set of INI files. The PHP INI is derived from a template, which
   will fill in site-specific variables, and merge the system extension INI
-  directory with the template extension INI directory.
+  directory with the template extension INI directory. Now the default.
+* `-i`: If the site should use the global PHP configuration. This will disable
+  some useful features like setting the time zone in the configuration enabled
+  by template transforms done by site-specific configuration.
 * `-P`: Overrides the detected version of PHP.
 * `-C`: If the htdocs directory should be populated with the contents of
   another site. The other site must exist.

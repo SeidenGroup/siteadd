@@ -30,7 +30,7 @@ else
 fi
 
 usage() {
-	echo "Usage: $0 -p port -n site_name [-C old_site] [-T template_directory] [-I] [-f] [-Y|-N]"
+	echo "Usage: $0 -p port -n site_name [-C old_site] [-T template_directory] [-I|-i] [-f] [-Y|-N]"
 	echo ""
 	echo "Simplest usage: $0 -p port -n site_name"
 	echo ""
@@ -40,12 +40,13 @@ usage() {
 	echo "  -n name: The name of the site. This must be ten characters"
 	echo "           or less, and meet the traditional naming rules for"
 	echo "           for IBM i physical file members."
-	echo "  -I: Make a separate directory for PHP INI files."
+	echo "  -I: Make a separate directory for PHP INI files. Default."
 	echo "      PHP INIs will then be in /www/sitename/phpconf."
 	echo "      Said INIs will be copied from the template directory."
 	echo "      The PHP extension configuration will be the system-wide"
 	echo "      configuration with template-specific configuration."
 	echo "      The default otherwise is to use the shared PHP etc dir."
+	echo "  -i: Use the global configuration directory instead."
 	echo "  -P: Override the PHP version for INIs. Usually auto-detected."
 	echo "  -C: Copy htdocs from another site. Must exist."
 	echo "  -Y: If the site should start automatically. Default."
@@ -54,7 +55,7 @@ usage() {
 	exit 255
 }
 
-MAKE_ETCPHP=no
+MAKE_ETCPHP=yes
 AUTOSTART=" -AutoStartY"
 ROOT_TMPL_DIR="/QOpenSys/pkgs/share/siteadd"
 TMPL_DIR="/QOpenSys/pkgs/share/siteadd/template"
@@ -131,6 +132,9 @@ while getopts ":p:n:T:C:YNfIP:" o; do
 			;;
 		"I")
 			MAKE_ETCPHP=yes
+			;;
+		"I")
+			MAKE_ETCPHP=no
 			;;
 		"Y")
 			# leading space is so we don't get a trailing space
