@@ -65,7 +65,7 @@ FORCE_PORT=no
 INSTALLED_PHP_VERSION=$(rpm -q --queryformat "%{VERSION}" php-common | sed -E 's/([0-9]+)\.([0-9]+)\..*/\1.\2/g')
 PHP_VERSION="$INSTALLED_PHP_VERSION"
 
-while getopts ":p:n:T:C:YNfIP:" o; do
+while getopts ":p:n:T:C:YNfIiP:" o; do
 	case "${o}" in
 		"p")
 			SITE_PORT=${OPTARG}
@@ -133,7 +133,7 @@ while getopts ":p:n:T:C:YNfIP:" o; do
 		"I")
 			MAKE_ETCPHP=yes
 			;;
-		"I")
+		"i")
 			MAKE_ETCPHP=no
 			;;
 		"Y")
