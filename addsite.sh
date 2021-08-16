@@ -209,7 +209,7 @@ banner_msg "Validity checks finished"
 # and the IANA name associated with it. PHP has its own built-in TZ DB.
 # If TZ is already set as an IANA value, use it.
 # XXX: Should we also set TZ in the FastCGI config?
-if echo "$TZ" | grep -qs "/"; then
+if [[ -v TZ ]] && echo "$TZ" | grep -qs "/"; then
 	TIMEZONE="$TZ"
 else
 	TIMEZONE=$($QTIMZON2IANA || echo "UTC")
