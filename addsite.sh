@@ -224,6 +224,7 @@ if [ "$MAKE_ETCPHP" = "yes" ]; then
 else
 	ETCPHPDIR="/QOpenSys/etc/php"
 fi
+LOGDIR="$APACHEDIR/logs"
 ETCPHPCONFDDIR="$ETCPHPDIR/conf.d"
 
 # these are case-insensitive... very much so

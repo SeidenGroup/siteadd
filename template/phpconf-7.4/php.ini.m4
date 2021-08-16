@@ -592,7 +592,7 @@ report_memleaks = On
 ; Log errors to syslog (Event Log on Windows).
 ;error_log = syslog
 ; (SG) We recommend logging this to a file.
-error_log = xWWWDIR/logs/php_error.log
+error_log = xLOGDIR/php_error.log
 
 ; The syslog ident is a string which is prepended to every message logged
 ; to syslog. Only used when error_log is set to syslog.
@@ -1054,7 +1054,7 @@ mail.add_x_header = Off
 ; The path to a log file that will log all mail() calls. Log entries include
 ; the full path of the script, line number, To address and headers.
 ; (SG) We set this to the web server log directory.
-;mail.log = xWWWDIR/logs/php_mail.log
+;mail.log = xLOGDIR/php_mail.log
 ; Log mail to syslog (Event Log on Windows).
 ;mail.log = syslog
 
