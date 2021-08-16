@@ -71,9 +71,14 @@ while getopts "T:P:d:" o; do
 	esac
 done
 
+# Dummy variables; exported for shellcheck to not complain
+export APACHEDIR=/www/BOGUS
+export SITE_NAME=BOGUS
+export SITE_PORT=0
+
 shift $((OPTIND-1))
 # XXX: Much of this should be refactored so addsite/this share common funcs
-if echo "$TZ" | grep -qs "/"; then
+if [[ -v TZ ]] && echo "$TZ" | grep -qs "/"; then
 	TIMEZONE="$TZ"
 else
 	TIMEZONE=$($QTIMZON2IANA || echo "UTC")
