@@ -29,7 +29,8 @@ test:
 	 addsite.sh \
 	 rmsite.sh \
 	 toggle-db-script.sh \
-	 toggle-autostart.sh
+	 toggle-autostart.sh \
+	 transform-php-config.sh
 
 install: $(QTI_PGM)
 	echo "Installing to $(DESTDIR)$(PREFIX)"
@@ -40,6 +41,7 @@ install: $(QTI_PGM)
 	install -D -m 755 $(QTI_PGM) $(DESTDIR)$(PREFIX)/bin/qtimzon2iana
 	install -D -m 755 libsiteadd.sh $(DESTDIR)$(PREFIX)/lib/siteadd/libsiteadd.sh
 	install -D -m 755 canlisten.php $(DESTDIR)$(PREFIX)/bin/canlisten
+	install -D -m 755 transform-php-config.sh $(DESTDIR)$(PREFIX)/bin/transform-php-config
 	# Default template
 	install -D -m 644 template/template-httpd.m4 $(DESTDIR)$(PREFIX)/share/siteadd/template/template-httpd.m4
 	install -D -m 644 template/template-fastcgi.m4 $(DESTDIR)$(PREFIX)/share/siteadd/template/template-fastcgi.m4

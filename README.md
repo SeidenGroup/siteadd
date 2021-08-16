@@ -64,6 +64,20 @@ addsite -p 8080 -n testsite -I -T template-legacy-db
 The only argument taken is the name of the site. It will end the HTTP server,
 unregister the site from the known list of sites, and remove the directory.
 
+### transform-php-config
+
+This transforms an existing PHP configuration in place. Its purpose is so you
+can apply a template's configuration onto the global PHP configuration.
+
+The following flags are taken.
+
+* `-d`: Optional. The directory to use for the PHP configuration containing
+  files like `php.ini`. By default, `/QOpenSys/etc/php`.
+* `-P`: Overrides the detected version of PHP.
+* `-T`: Override the default template directory. If a path isn't specified
+  (this is done through including a directory separator), then siteadd will
+  treat the name as a subdirectory of `/QOpenSys/pkgs/share/siteadd`.
+
 ### toggle-db
 
 This script toggles between classic and ODBC database extensions for a PHP
