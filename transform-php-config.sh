@@ -43,6 +43,8 @@ ROOT_TMPL_DIR="/QOpenSys/pkgs/share/siteadd"
 TMPL_DIR="/QOpenSys/pkgs/share/siteadd/template"
 ETCPHPDIR="/QOpenSys/etc/php"
 LOGDIR=/QOpenSys/var/log
+get_installed_php_version
+PHP_VERSION="$INSTALLED_PHP_VERSION"
 while getopts "T:P:d:" o; do
 	case "${o}" in
 		"d")

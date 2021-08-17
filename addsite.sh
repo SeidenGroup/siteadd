@@ -64,7 +64,7 @@ TMPL_DIR="/QOpenSys/pkgs/share/siteadd/template"
 OLD_SITENAME=""
 FORCE_PORT=no
 
-INSTALLED_PHP_VERSION=$(rpm -q --queryformat "%{VERSION}" php-common | sed -E 's/([0-9]+)\.([0-9]+)\..*/\1.\2/g')
+get_installed_php_version
 PHP_VERSION="$INSTALLED_PHP_VERSION"
 
 while getopts ":p:n:T:C:YNfIiP:" o; do

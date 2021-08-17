@@ -47,6 +47,12 @@ check_dir() {
 	fi
 }
 
+# Gets the installed PHP version as a global variable
+get_installed_php_version() {
+	INSTALLED_PHP_VERSION=$(rpm -q --queryformat "%{VERSION}" php-common | sed -E 's/([0-9]+)\.([0-9]+)\..*/\1.\2/g')
+	# XXX: Error out if PHP not installed
+}
+
 # XXX: This is super hacky and could get more than what's needed (or not enough)
 comment_extension() {
 	sed -i 's/^\s*extension=\([A-Za-z0-9_\-\.]*\).*$/; extension=\1/g' "$1"
