@@ -49,7 +49,7 @@ check_dir() {
 
 # Gets the installed PHP version as a global variable
 get_installed_php_version() {
-	INSTALLED_PHP_VERSION=$(rpm -q --queryformat "%{VERSION}" php-common | sed -E 's/([0-9]+)\.([0-9]+)\..*/\1.\2/g')
+	export INSTALLED_PHP_VERSION=$(rpm -q --queryformat "%{VERSION}" php-common | sed -E 's/([0-9]+)\.([0-9]+)\..*/\1.\2/g')
 	# XXX: Error out if PHP not installed
 }
 
@@ -60,9 +60,9 @@ get_installed_php_version() {
 # Sets the timezone in a global. Assumes vars for TZ or TZ tool are set.
 set_timezone_var() {
 	if [[ -v TZ ]] && echo "$TZ" | grep -qs "/"; then
-		TIMEZONE="$TZ"
+		export TIMEZONE="$TZ"
 	else
-		TIMEZONE=$($QTIMZON2IANA || echo "UTC")
+		export TIMEZONE=$($QTIMZON2IANA || echo "UTC")
 	fi
 }
 
