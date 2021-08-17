@@ -91,12 +91,8 @@ export SITE_NAME=BOGUS
 export SITE_PORT=0
 
 shift $((OPTIND-1))
-# XXX: Much of this should be refactored so addsite/this share common funcs
-if [[ -v TZ ]] && echo "$TZ" | grep -qs "/"; then
-	TIMEZONE="$TZ"
-else
-	TIMEZONE=$($QTIMZON2IANA || echo "UTC")
-fi
+
+set_timezone_var
 TMPL_PHPCONF="$TMPL_DIR/phpconf-$PHP_VERSION"
 TMPL_PHPCONF_D="$TMPL_DIR/phpconf-$PHP_VERSION/conf.d"
 # Fill in php.ini from template
