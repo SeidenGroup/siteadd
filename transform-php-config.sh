@@ -27,6 +27,18 @@ else
 	QTIMZON2IANA=./qtimzon2iana/qtimzon2iana
 fi
 
+usage() {
+	echo "Usage: $0 [-T template_directory] [-d php_ini_dir] [-P php_version]"
+	echo ""
+	echo "Replaces a PHP configuration with one from a template, in-place."
+	echo ""
+	echo "Options:"
+	echo "  -d: Set the PHP INI directory. By default, the system one."
+	echo "  -P: Override the PHP version for INIs. Usually auto-detected."
+	echo "  -T: The template directory to use instead of the default."
+	exit 255
+}
+
 ROOT_TMPL_DIR="/QOpenSys/pkgs/share/siteadd"
 TMPL_DIR="/QOpenSys/pkgs/share/siteadd/template"
 ETCPHPDIR="/QOpenSys/etc/php"

@@ -30,7 +30,9 @@ else
 fi
 
 usage() {
-	echo "Usage: $0 -p port -n site_name [-C old_site] [-T template_directory] [-I|-i] [-f] [-Y|-N]"
+	echo "Usage: $0 -p port -n site_name [-C old_site] [-T template_directory] [-I|-i] [-f] [-Y|-N] [-P php_version]"
+	echo ""
+	echo "Creates a site from a template."
 	echo ""
 	echo "Simplest usage: $0 -p port -n site_name"
 	echo ""
