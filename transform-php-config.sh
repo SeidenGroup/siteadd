@@ -95,6 +95,23 @@ shift $((OPTIND-1))
 set_timezone_var
 TMPL_PHPCONF="$TMPL_DIR/phpconf-$PHP_VERSION"
 TMPL_PHPCONF_D="$TMPL_DIR/phpconf-$PHP_VERSION/conf.d"
+check_dir 16 "PHP extension configuration template" "$TMPL_PHPCONF_D"
+check_file 15 "PHP configuration template" "$TMPL_PHPCONF/php.ini.m4"
+
+if [ "$(uname)" != "OS400" ]; then
+	error_msg "Hey, this isn't i!"
+	exit 10
+fi
+
+# If the preflight check exists, run it
+PREFLIGHT="$TMPL_DIR/preflight.sh"
+if [ -f "$PREFLIGHT" ]; then
+	if ! "$PREFLIGHT"; then
+		error_msg "The preflight check failed (exit code $?)"
+		exit 17
+	fi
+fi
+
 # Fill in php.ini from template
 m4_wrap "$TMPL_PHPCONF/php.ini.m4" "$ETCPHPDIR/php.ini"
 # Copy the system config then merge the temlate configs
