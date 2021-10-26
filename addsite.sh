@@ -208,6 +208,7 @@ banner_msg "Validity checks finished"
 
 # XXX: Should we also set TZ in the FastCGI config?
 set_timezone_var
+set_ccsid_var
 
 PF_MEMBER="/QSYS.LIB/QUSRSYS.LIB/QATMHINSTC.FILE/$SITE_NAME.MBR"
 # slashes are appended as needed

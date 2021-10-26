@@ -25,8 +25,8 @@ AddType application/x-httpd-php .php
 AddHandler fastcgi-script .php
 
 # Set CCSID
-DefaultFsCCSID 37 
-CGIJobCCSID 37    
+DefaultFsCCSID xCCSID
+CGIJobCCSID xCCSID
 
 # Enable index.php to be used if no file is explicitly specified
 DirectoryIndex index.php index.html

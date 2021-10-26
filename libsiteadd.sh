@@ -29,7 +29,7 @@ error_msg() {
 
 m4_wrap() {
 	# without -P, it's easy to trip up m4 on PHP INIs (refs to builtins)
-	m4 -P -D "xSITE_NAME=$SITE_NAME" -D "xPHPDIR=$ETCPHPDIR" -D "xWWWDIR=$APACHEDIR" -D "xLOGDIR=$LOGDIR" -D "xPORT=$SITE_PORT" -D "xTIMEZONE=$TIMEZONE" "$1" > "$2"
+	m4 -P -D "xSITE_NAME=$SITE_NAME" -D "xPHPDIR=$ETCPHPDIR" -D "xWWWDIR=$APACHEDIR" -D "xLOGDIR=$LOGDIR" -D "xPORT=$SITE_PORT" -D "xTIMEZONE=$TIMEZONE" -d "xCCSID=$CCSID" "$1" > "$2"
 }
 
 # exit_code file_type file
@@ -64,6 +64,18 @@ set_timezone_var() {
 	else
 		export TIMEZONE=$($QTIMZON2IANA || echo "UTC")
 	fi
+}
+
+set_ccsid_var() {
+	if [[ -v CCSID ]] && echo "$CCSID" | grep -E "[0-9]+"; then
+		# nop if user already sets it
+	else
+		# Get the current job CCSID (in process).
+		# DFTCCSID is used because CCSID can be 65535 (bad)
+		# Not sure about the cut point. cl/system will strip end WS
+		CCSID=$(cl dspjob | grep DFTCCSID | cut -b 66-)
+	fi
+	banner_msg "The selected CCSID is $CCSID"
 }
 
 # XXX: This is super hacky and could get more than what's needed (or not enough)

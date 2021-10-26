@@ -93,6 +93,7 @@ export SITE_PORT=0
 shift $((OPTIND-1))
 
 set_timezone_var
+set_ccsid_var
 TMPL_PHPCONF="$TMPL_DIR/phpconf-$PHP_VERSION"
 TMPL_PHPCONF_D="$TMPL_DIR/phpconf-$PHP_VERSION/conf.d"
 check_dir 16 "PHP extension configuration template" "$TMPL_PHPCONF_D"
