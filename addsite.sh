@@ -30,7 +30,7 @@ else
 fi
 
 usage() {
-	echo "Usage: $0 -p port -n site_name [-C old_site] [-T template_directory] [-I|-i] [-f] [-Y|-N] [-P php_version]"
+	echo "Usage: $0 -p port -n site_name [-C old_site] [-T template_directory] [-I|-i] [-f] [-Y|-N] [-P php_version] [-c chroot_path]"
 	echo ""
 	echo "Creates a site from a template."
 	echo ""
@@ -50,6 +50,9 @@ usage() {
 	echo "      The default otherwise is to use the shared PHP etc dir."
 	echo "  -i: Use the global configuration directory instead."
 	echo "  -P: Override the PHP version for INIs. Usually auto-detected."
+	echo "  -c chroot: Prefix to use for a chroot. Note that the chroot"
+	echo "      path is only used as a prefix and not actually chrooted,"
+	echo "      due to ILE Apache limitations."
 	echo "  -C: Copy htdocs from another site. Must exist."
 	echo "  -Y: If the site should start automatically. Default."
 	echo "  -N: If the site should not start automatically."
@@ -62,12 +65,13 @@ AUTOSTART=" -AutoStartY"
 ROOT_TMPL_DIR="/QOpenSys/pkgs/share/siteadd"
 TMPL_DIR="/QOpenSys/pkgs/share/siteadd/template"
 OLD_SITENAME=""
+CHROOT_PREFIX=""
 FORCE_PORT=no
 
 get_installed_php_version
 PHP_VERSION="$INSTALLED_PHP_VERSION"
 
-while getopts ":p:n:T:C:YNfIiP:" o; do
+while getopts ":p:n:T:C:c:YNfIiP:" o; do
 	case "${o}" in
 		"p")
 			SITE_PORT=${OPTARG}
@@ -135,6 +139,9 @@ while getopts ":p:n:T:C:YNfIiP:" o; do
 		"C")
 			OLD_SITENAME=${OPTARG}
 			;;
+		"c")
+			CHROOT_PREFIX=${OPTARG}
+			;;
 		"I")
 			MAKE_ETCPHP=yes
 			;;
@@ -179,6 +186,9 @@ check_dir 16 "PHP extension configuration template" "$TMPL_PHPCONF_D"
 check_file 15 "PHP configuration template" "$TMPL_PHPCONF/php.ini.m4"
 check_file 13 "list of page templates" "$TMPL_HTDOCS_T"
 check_dir 11 "directory of page templates" "$TMPL_HTDOCS"
+if [ -n "$CHROOT_PREFIX" ]; then
+	check_dir 20 "chroot prefix" "$CHROOT_PREFIX"
+fi
 
 if [ -n "$OLD_SITENAME" ] && [ ! -d "/www/$OLD_SITENAME/htdocs" ]; then
 	error_msg "The old site doesn't exist."

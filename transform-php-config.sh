@@ -28,13 +28,16 @@ else
 fi
 
 usage() {
-	echo "Usage: $0 [-T template_directory] [-d php_ini_dir] [-P php_version]"
+	echo "Usage: $0 [-T template_directory] [-d php_ini_dir] [-P php_version] [-c chroot_path]"
 	echo ""
 	echo "Replaces a PHP configuration with one from a template, in-place."
 	echo ""
 	echo "Options:"
 	echo "  -d: Set the PHP INI directory. By default, the system one."
 	echo "  -P: Override the PHP version for INIs. Usually auto-detected."
+	echo "  -c chroot: Prefix to use for a chroot. Note that the chroot"
+	echo "      path is only used as a prefix and not actually chrooted,"
+	echo "      due to ILE Apache limitations."
 	echo "  -T: The template directory to use instead of the default."
 	exit 255
 }
@@ -43,9 +46,10 @@ ROOT_TMPL_DIR="/QOpenSys/pkgs/share/siteadd"
 TMPL_DIR="/QOpenSys/pkgs/share/siteadd/template"
 ETCPHPDIR="/QOpenSys/etc/php"
 LOGDIR=/QOpenSys/var/log
+CHROOT_PREFIX=""
 get_installed_php_version
 PHP_VERSION="$INSTALLED_PHP_VERSION"
-while getopts "T:P:d:" o; do
+while getopts "T:P:d:c:" o; do
 	case "${o}" in
 		"d")
 			ETCPHPDIR="${OPTARG}"
@@ -66,6 +70,9 @@ while getopts "T:P:d:" o; do
 				error_msg "The PHP version is invalid."
 				exit 14
 			esac
+			;;
+		"c")
+			CHROOT_PREFIX=${OPTARG}
 			;;
 		"T")
 			# if it has a / then it's a path, otherwise look in template dir
@@ -98,6 +105,9 @@ TMPL_PHPCONF="$TMPL_DIR/phpconf-$PHP_VERSION"
 TMPL_PHPCONF_D="$TMPL_DIR/phpconf-$PHP_VERSION/conf.d"
 check_dir 16 "PHP extension configuration template" "$TMPL_PHPCONF_D"
 check_file 15 "PHP configuration template" "$TMPL_PHPCONF/php.ini.m4"
+if [ -n "$CHROOT_PREFIX" ]; then
+	check_dir 20 "chroot prefix" "$CHROOT_PREFIX"
+fi
 
 if [ "$(uname)" != "OS400" ]; then
 	error_msg "Hey, this isn't i!"
