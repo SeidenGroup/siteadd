@@ -772,6 +772,9 @@ user_dir =
 ; On windows:
 ;extension_dir = "ext"
 
+; (SG) Set the extension dir explicitly if a custom prefix is set.
+m4_ifelse(xCHROOTPREFIX, `', `; chroot prefix not set', `extension_dir=xCHROOTPREFIX/QOpenSys/pkgs/lib/php-xPHPVER/extensions')
+
 ; Directory where the temporary files should be placed.
 ; Defaults to the system default (see sys_get_temp_dir)
 ;sys_temp_dir = "/tmp"
