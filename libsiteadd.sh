@@ -67,8 +67,9 @@ set_timezone_var() {
 }
 
 set_ccsid_var() {
-	if [[ -v CCSID ]] && echo "$CCSID" | grep -E "[0-9]+"; then
+	if [[ -v CCSID ]] && echo "$CCSID" | grep -qsE "[0-9]+"; then
 		# nop if user already sets it
+		true
 	else
 		# Get the current job CCSID (in process).
 		# DFTCCSID is used because CCSID can be 65535 (bad)
