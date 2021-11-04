@@ -49,7 +49,11 @@ check_dir() {
 
 # Gets the installed PHP version as a global variable
 get_installed_php_version() {
-	export INSTALLED_PHP_VERSION=$(rpm -q --queryformat "%{VERSION}" php-common | sed -E 's/([0-9]+)\.([0-9]+)\..*/\1.\2/g')
+	local USE_PREFIX="$CHROOT_PREFIX"
+	if [ -z "$USE_PREFIX" ]; then
+		USE_PREFIX=/
+	fi
+	export INSTALLED_PHP_VERSION=$(rpm --root="$USE_PREFIX" -q --queryformat "%{VERSION}" php-common | sed -E 's/([0-9]+)\.([0-9]+)\..*/\1.\2/g')
 	# XXX: Error out if PHP not installed
 }
 

@@ -41,7 +41,8 @@ The following flags are taken:
 * `-P`: Overrides the detected version of PHP.
 * `-c`: The path to the chroot to use as a prefix. Note that this does *not*
   actually chroot, but uses the PHP binaries from within the chroot. Must use
-  with `-I` to work properly, and you almost certainly want `-P` with that.
+  with `-I` to work properly. The PHP version of the chroot will be detected,
+  so use `-P` to override.
 * `-C`: If the htdocs directory should be populated with the contents of
   another site. The other site must exist.
 * `-Y`: If the web server should start automatically. Default.

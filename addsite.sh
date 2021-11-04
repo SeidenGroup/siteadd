@@ -67,9 +67,7 @@ TMPL_DIR="/QOpenSys/pkgs/share/siteadd/template"
 OLD_SITENAME=""
 CHROOT_PREFIX=""
 FORCE_PORT=no
-
-get_installed_php_version
-PHP_VERSION="$INSTALLED_PHP_VERSION"
+FORCE_PHP_VERSION=""
 
 while getopts ":p:n:T:C:c:YNfIiP:" o; do
 	case "${o}" in
@@ -109,16 +107,16 @@ while getopts ":p:n:T:C:c:YNfIiP:" o; do
 			# Filter out only supported versions of PHP
 			case "${OPTARG}" in
 			7.3)
-				PHP_VERSION=7.3
+				FORCE_PHP_VERSION=7.3
 				;;
 			7.4)
-				PHP_VERSION=7.4
+				FORCE_PHP_VERSION=7.4
 				;;
 			8.0)
-				PHP_VERSION=8.0
+				FORCE_PHP_VERSION=8.0
 				;;
 			8.1)
-				PHP_VERSION=8.1
+				FORCE_PHP_VERSION=8.1
 				;;
 			*)
 				error_msg "The PHP version is invalid."
@@ -162,6 +160,14 @@ while getopts ":p:n:T:C:c:YNfIiP:" o; do
 	esac
 done
 shift $((OPTIND-1))
+
+# Check after getopt in case we're peeking inside of a chroot
+get_installed_php_version
+if [ -n "$FORCE_PHP_VERSION" ]; then
+	PHP_VERSION="$FORCE_PHP_VERSION"
+else
+	PHP_VERSION="$INSTALLED_PHP_VERSION"
+fi
 
 # just make sure all our args are set.
 # unfortunately bash doesn't like compounding these, so sep lines.
