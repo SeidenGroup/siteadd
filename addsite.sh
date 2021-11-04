@@ -220,6 +220,11 @@ if [ "$FORCE_PORT" = "no" ] && ! $CANLISTEN "$SITE_PORT"; then
 	exit 19
 fi
 
+if [ "$MAKE_ETCPHP" = "no" ] && [ -n "$CHROOT_PREFIX" ]; then
+	error_msg "Can't use a chroot prefix without making a site-specific config."
+	exit 21
+fi
+
 banner_msg "Validity checks finished"
 
 # XXX: Should we also set TZ in the FastCGI config?
