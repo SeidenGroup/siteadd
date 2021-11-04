@@ -39,6 +39,9 @@ The following flags are taken:
   some useful features like setting the time zone in the configuration enabled
   by template transforms done by site-specific configuration.
 * `-P`: Overrides the detected version of PHP.
+* `-c`: The path to the chroot to use as a prefix. Note that this does *not*
+  actually chroot, but uses the PHP binaries from within the chroot. Must use
+  with `-I` to work properly, and you almost certainly want `-P` with that.
 * `-C`: If the htdocs directory should be populated with the contents of
   another site. The other site must exist.
 * `-Y`: If the web server should start automatically. Default.
