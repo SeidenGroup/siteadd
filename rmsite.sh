@@ -23,7 +23,28 @@ else
 	. ./libsiteadd.sh --source-only
 fi
 
-# Only arg is site name
+usage() {
+	echo "Usage: $0 [-r] site_name"
+	echo ""
+	echo "Removes a site entry, and optionally deletes its files."
+	echo ""
+	echo "Options:"
+	echo "  -r: Delete the files too."
+	exit 255
+}
+
+DELETE_FILES=no
+while getopts "r" o; do
+	case "${o}" in
+		"r")
+			DELETE_FILES=yes
+			;;
+		*)
+			usage
+			;;
+	esac
+done
+shift $((OPTIND-1))
 
 SITE_NAME=$1
 
@@ -36,6 +57,7 @@ PF_MEMBER="/QSYS.LIB/QUSRSYS.LIB/QATMHINSTC.FILE/$SITE_NAME.MBR"
 # PHP conf is under here too
 APACHEDIR="/www/$SITE_NAME/"
 
+# Maybe check for PFM too, but could break -r
 if [ ! -d "$APACHEDIR" ]; then
 	error_msg "The site doesn't exist."
 	exit 2
@@ -45,8 +67,11 @@ banner_msg "Ending..."
 # this is || true in case the server isn't running already
 system ENDTCPSVR "SERVER(*HTTP)" "HTTPSVR($SITE_NAME)" || true
 
-banner_msg "Deleting..."
+banner_msg "Deleting member..."
 
 rm "$PF_MEMBER"
-rm -rf "$APACHEDIR"
+if [ "$DELETE_FILES" = "yes" ]; then
+	banner_msg "Deleting files..."
+	rm -rf "$APACHEDIR"
+fi
 banner_msg "Done."
