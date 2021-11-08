@@ -10,7 +10,7 @@ QTI_DEPS := qtimzon2iana/qwcrtvtz.h qtimzon2iana/ebcdic.h
 
 # XXX: Hardcoded in scripts
 PREFIX := /QOpenSys/pkgs
-VERSION := 0.7
+VERSION := 0.8
 
 all: $(QTI_PGM)
 
