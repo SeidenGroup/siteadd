@@ -46,12 +46,11 @@ while getopts "r" o; do
 done
 shift $((OPTIND-1))
 
-SITE_NAME=$1
-
-if [ -z "$SITE_NAME" ]; then
+if [ "$#" -lt "1" ]; then
 	error_msg "Need a site name."
 	exit 1
 fi
+SITE_NAME=$1
 
 PF_MEMBER="/QSYS.LIB/QUSRSYS.LIB/QATMHINSTC.FILE/$SITE_NAME.MBR"
 # PHP conf is under here too
