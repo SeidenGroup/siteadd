@@ -14,6 +14,10 @@ Listen *:xPORT
 # LoadModule proxy_ftp_module /QSYS.LIB/QHTTPSVR.LIB/QZSRCORE.SRVPGM
 # SSL/TLS (HTTPS; requires further flags to enable):
 # LoadModule ibm_ssl_module /QSYS.LIB/QHTTPSVR.LIB/QZSRVSSL.SRVPGM
+# Note that TLS protocols can be controlled at the system level, or at the
+# Apache level. Consult the mod_ibm_ssl documentation for Apache level:
+# https://www.ibm.com/docs/en/i/7.2?topic=ssw_ibm_i_72/rzaie/rzaiemod_ibm_ssl.htm
+# You may want to pay particular attention to i.e. SSLProtocolDisable.
 
 # Transparent gzip compression (use on files that aren't already compressed, like text):
 LoadModule deflate_module /QSYS.LIB/QHTTPSVR.LIB/QZSRCORE.SRVPGM
