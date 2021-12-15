@@ -28,6 +28,7 @@ test:
 	shellcheck -e SC1091 libsiteadd.sh \
 	 addsite.sh \
 	 rmsite.sh \
+	 dspsite.sh \
 	 toggle-db-script.sh \
 	 toggle-autostart.sh \
 	 transform-php-config.sh
@@ -36,6 +37,7 @@ install: $(QTI_PGM)
 	echo "Installing to $(DESTDIR)$(PREFIX)"
 	install -D -m 755 addsite.sh $(DESTDIR)$(PREFIX)/bin/addsite
 	install -D -m 755 rmsite.sh $(DESTDIR)$(PREFIX)/bin/rmsite
+	install -D -m 755 dspsite.sh $(DESTDIR)$(PREFIX)/bin/dspsite
 	install -D -m 755 toggle-db-script.sh $(DESTDIR)$(PREFIX)/bin/toggle-db
 	install -D -m 755 toggle-autostart.sh $(DESTDIR)$(PREFIX)/bin/toggle-autostart
 	install -D -m 755 $(QTI_PGM) $(DESTDIR)$(PREFIX)/bin/qtimzon2iana
