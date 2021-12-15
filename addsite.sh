@@ -237,7 +237,7 @@ APACHEDIR="/www/$SITE_NAME"
 if [ "$MAKE_ETCPHP" = "yes" ]; then
 	ETCPHPDIR="$APACHEDIR/phpconf"
 else
-	ETCPHPDIR="/QOpenSys/etc/php"
+	ETCPHPDIR="$CHROOT_PREFIX/QOpenSys/etc/php"
 fi
 LOGDIR="$APACHEDIR/logs"
 ETCPHPCONFDDIR="$ETCPHPDIR/conf.d"
@@ -304,7 +304,7 @@ if [ "$MAKE_ETCPHP" = "yes" ]; then
 	# This way, you can override extensions (i.e disable one),
 	# without having to worry about other extensions that can be left alone
 	mkdir "$ETCPHPCONFDDIR/"
-	cp -R /QOpenSys/etc/php/conf.d/* "$ETCPHPCONFDDIR/"
+	cp -R $CHROOT_PREFIX/QOpenSys/etc/php/conf.d/* "$ETCPHPCONFDDIR/"
 	cp -R "$TMPL_PHPCONF_D/"* "$ETCPHPCONFDDIR/"
 	# XXX: Should we make some extension INIs m4 templates, like htdocs?
 	banner_msg "Made configuration for PHP"
