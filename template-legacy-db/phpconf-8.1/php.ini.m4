@@ -755,7 +755,7 @@ default_charset = "UTF-8"
 ; (SG) We also include Toolkit's and other important PHP frameworks'
 ; package roots (for compatibility with Zend Server) when they were
 ; frequently used outside of Composer et al.
-include_path = ".:/QOpenSys/pkgs/lib/php/ToolkitApi:/QOpenSys/pkgs/lib/php/ZF1/library:/QOpenSys/pkgs/lib/php"
+include_path = ".:xCHROOTPREFIX/QOpenSys/pkgs/lib/php/ToolkitApi:xCHROOTPREFIX/QOpenSys/pkgs/lib/php/ZF1/library:xCHROOTPREFIX/QOpenSys/pkgs/lib/php"
 
 ; The root of the PHP pages, used only if nonempty.
 ; if PHP was not compiled with FORCE_REDIRECT, you SHOULD set doc_root
@@ -1338,7 +1338,7 @@ bcmath.scale = 0
 ; (SG) browscap is delivered in INI form and marked as a PHP dependency.
 ; If you want to disable browscap support, comment this line out.
 ; If you want to change the INI used (normal or full), change the path.
-browscap = "/QOpenSys/pkgs/share/browscap/lite_php_browscap.ini"
+browscap = "xCHROOTPREFIX/QOpenSys/pkgs/share/browscap/lite_php_browscap.ini"
 
 [Session]
 ; Handler used to store/retrieve data.
