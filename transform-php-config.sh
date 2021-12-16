@@ -27,6 +27,9 @@ else
 	QTIMZON2IANA=./qtimzon2iana/qtimzon2iana
 fi
 
+# before anything could use i.e. M4
+check_packages
+
 usage() {
 	echo "Usage: $0 [-T template_directory] [-d php_ini_dir] [-P php_version] [-c chroot_path]"
 	echo ""

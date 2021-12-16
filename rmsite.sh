@@ -33,6 +33,9 @@ usage() {
 	exit 255
 }
 
+# before anything could use i.e. M4
+check_packages
+
 DELETE_FILES=no
 while getopts "r" o; do
 	case "${o}" in

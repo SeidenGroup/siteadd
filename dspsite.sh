@@ -23,6 +23,9 @@ else
 	. ./libsiteadd.sh --source-only
 fi
 
+# before anything could use i.e. M4
+check_packages
+
 usage() {
 	echo "Usage: $0 site_name"
 	echo ""

@@ -69,6 +69,9 @@ CHROOT_PREFIX=""
 FORCE_PORT=no
 FORCE_PHP_VERSION=""
 
+# before anything could use i.e. M4
+check_packages
+
 while getopts ":p:n:T:C:c:YNfIiP:" o; do
 	case "${o}" in
 		"p")
