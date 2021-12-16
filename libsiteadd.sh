@@ -51,15 +51,15 @@ check_dir() {
 check_packages() {
 	# the logic is --version is 0 on GNU and errors on AIX/qshell versions
 	# naive, but we don't need much else
-	if m4 --version > /dev/null 2> /dev/null; then
+	if ! m4 --version > /dev/null 2> /dev/null; then
 		error_msg "m4 isn't the GNU version. check PATH"
 		exit 126
 	fi
-	if sed --version > /dev/null 2> /dev/null; then
+	if ! sed --version > /dev/null 2> /dev/null; then
 		error_msg "sed isn't the GNU version. check PATH"
 		exit 125
 	fi
-	if grep --version > /dev/null 2> /dev/null; then
+	if ! grep --version > /dev/null 2> /dev/null; then
 		error_msg "grep isn't the GNU version. check PATH"
 		exit 124
 	fi
