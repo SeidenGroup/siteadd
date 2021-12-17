@@ -57,16 +57,17 @@ For example, to make a site with its own PHP configuration:
 addsite -p 8080 -n testsite -I
 ```
 
-To make the site use the template for legacy database extensions:`
-
-```shell
-addsite -p 8080 -n testsite -I -T template-legacy-db
-```
-
 ### rmsite
 
-The only argument taken is the name of the site. It will end the HTTP server,
-unregister the site from the known list of sites, and remove the directory.
+Takes the name of the site, and optionally the `-f` flag.
+
+Regardless, It will end the HTTP server, unregister the site from the known
+list of sites, and (optionally) remove the directory.
+
+### dspsite
+
+The only argument taken is the name of the site. It will display file and
+directory locations for the web server.
 
 ### transform-php-config
 
