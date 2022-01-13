@@ -342,5 +342,5 @@ indent_msg "system STRTCPSVR \"SERVER(*HTTP)\" \"HTTPSVR($SITE_NAME)\""
 # Only relevant with custom PHP config for site
 if [ "$MAKE_ETCPHP" = "yes" ]; then
 	banner_msg "Want to run PHP CLI programs with your server's configuration? Use the shell command:"
-	indent_msg "PHPRC=\"$ETCPHPDIR\" PHP_INI_SCAN_DIR=\"$ETCPHPCONFDDIR\" php"
+	indent_msg "PHPRC=\"$ETCPHPDIR\" PHP_INI_SCAN_DIR=\"$ETCPHPCONFDDIR\" $CHROOT_PREFIX/QOpenSys/pkgs/bin/php"
 fi
