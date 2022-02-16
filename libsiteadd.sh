@@ -47,20 +47,25 @@ check_dir() {
 	fi
 }
 
+not_gnu_version() {
+	error_msg "$1 isn't the GNU version, exiting"
+	error_msg "make sure PATH is set properly: https://www.seidengroup.com/php-documentation/how-to-set-the-path-to-open-source-packages-on-ibm-i/"
+}
+
 # checks sanity of installed packages
 check_packages() {
 	# the logic is --version is 0 on GNU and errors on AIX/qshell versions
 	# naive, but we don't need much else
 	if ! m4 --version > /dev/null 2> /dev/null; then
-		error_msg "m4 isn't the GNU version. check PATH"
+		not_gnu_version "m4"
 		exit 126
 	fi
 	if ! sed --version > /dev/null 2> /dev/null; then
-		error_msg "sed isn't the GNU version. check PATH"
+		not_gnu_version "sed"
 		exit 125
 	fi
 	if ! grep --version > /dev/null 2> /dev/null; then
-		error_msg "grep isn't the GNU version. check PATH"
+		not_gnu_version "grep"
 		exit 124
 	fi
 }
