@@ -72,6 +72,19 @@ To make a new site, copying the contents of `htdocs` from the `oldsite` site:
 addsite -p 8082 -n testsite3 -C oldsite
 ```
 
+To make a new site, using a chroot, and making it always autostart:
+
+```shell
+addsite -p 8083 -n testsite4 -c /QOpenSys/chroots/php81 -Y
+```
+
+To make a new site, using a chroot, and forcibly setting a specific version of
+PHP to use for templates, and making it not autostart:
+
+```shell
+addsite -p 8084 -n testsite5 -c /QOpenSys/chroots/php81 -P 8.1 -N
+```
+
 ### rmsite
 
 Takes the name of the site, and optionally the `-f` flag.
