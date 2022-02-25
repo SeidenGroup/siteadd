@@ -51,10 +51,25 @@ The following flags are taken:
   (this is done through including a directory separator), then siteadd will
   treat the name as a subdirectory of `/QOpenSys/pkgs/share/siteadd`.
 
+#### Examples
+
 For example, to make a site with its own PHP configuration:
 
 ```shell
-addsite -p 8080 -n testsite -I
+addsite -p 8080 -n testsite
+```
+
+To make a new site, using the global PHP configuration, and using a template
+of `my-template` installed in the system template directory:
+
+```shell
+addsite -p 8081 -n testsite2 -i -T my-template
+```
+
+To make a new site, copying the contents of `htdocs` from the `oldsite` site:
+
+```shell
+addsite -p 8082 -n testsite3 -C oldsite
 ```
 
 ### rmsite
@@ -64,10 +79,41 @@ Takes the name of the site, and optionally the `-f` flag.
 Regardless, It will end the HTTP server, unregister the site from the known
 list of sites, and (optionally) remove the directory.
 
+#### Examples
+
+To delete a site, but not delete any files in `/www`:
+
+```shell
+rmsite badsite
+```
+
+To delete a site and delete all its files (**destructive**):
+
+```shell
+rmsite -f badsite
+```
+
 ### dspsite
 
 The only argument taken is the name of the site. It will display file and
 directory locations for the web server.
+
+#### Examples
+
+```shell
+dspsite rpmserver
+```
+
+Outputs:
+
+```
+Physical file: /QSYS.LIB/QUSRSYS.LIB/QATMHINSTC.FILE/rpmserver.MBR
+-apache -d /www/rpmserver -f conf/httpd.conf
+
+Site directory (logs, htdocs, conf): /www/rpmserver
+Log file (global): /QOpenSys/var/log/php_error.log
+PHP config dir (i.e. php.ini) (global): /QOpenSys/etc/php
+```
 
 ### transform-php-config
 
@@ -83,15 +129,52 @@ The following flags are taken.
   (this is done through including a directory separator), then siteadd will
   treat the name as a subdirectory of `/QOpenSys/pkgs/share/siteadd`.
 
+#### Examples
+
+To use the template `my-template in `/QOpenSys/pkgs/share/siteadd`, on the
+global PHP configuration:
+
+```shell
+transform-php-config -T my-template
+```
+
+To use the template `my-template` in the current working directory, on a
+site-specific configuration:
+
+```shell
+transform-php-config -T ./my-template -d /www/mysite/phpconf
+```
+
 ### toggle-db
 
 This script toggles between classic and ODBC database extensions for a PHP
 extension configuration directory (by default, the system one).
 
+This used to be important in the Before Times of when database extensions were
+mutually exclusive. Now, that both can be used in parallel, it's no longer
+needed. We provide it still, as a way to make sure old sites can be easily
+switched to use both.
+
 The following flags are taken:
 
 * `-d`: Optional. The directory to use instead.
-* `-t`: Mandatory. The extension archetype. Use "classic" or "odbc" here.
+* `-t`: Mandatory. The extension archetype. Use "classic", "odbc", or "both"
+  here.
+
+#### Examples
+
+To make sure both classic and ODBC database extensions are used globally (this
+is default in current CP+, but not in old):
+
+```shell
+toggle-db -t both
+```
+
+To enable both kinds of extensions for a specific site:
+
+```shell
+toggle-db -t both -d /www/sitename/phpconf/conf.d
+```
 
 ### toggle-autostart
 
@@ -104,6 +187,10 @@ The following flags are taken:
 * `-Y`: Optional. The site should start on IPL.
 * `-N`: Optional. The site shouldn't start on IPL.
 
+#### Examples
+
+To enable a site to start on IPL:
+
 ### qtimzon2iana
 
 Internal program used by siteadd for converting IBM i `*TIMZON` objects to
@@ -112,6 +199,22 @@ their IANA zoneinfo names, but generally useful.
 Takes IBM i time zone names as arguments and writes the IANA names back.
 If no names are given, then use the system value `QTIMZON`.
 Use `*ALL` to write out all names.
+
+#### Examples
+
+Show the current IBM i time zone in IANA form:
+
+```
+$ qtimzon2iana
+America/New_York
+```
+
+Show a time zone object with IANA name:
+
+```
+$ qtimzon2iana QN0400AST
+Atlantic/Bermuda
+```
 
 ## Template structure
 
