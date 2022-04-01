@@ -10,7 +10,7 @@ QTI_OBJ := qtimzon2iana/qwcrtvtz.o qtimzon2iana/qwcrsval.o libsiteadd-c/ebcdic.o
 QTI_DEPS := qtimzon2iana/qwcrtvtz.h libsiteadd-c/ebcdic.h libsiteadd-c/errc.h
 
 GRC_PGM := generate-resolv/generate-resolve
-GRC_OBJ := generate-resolv/QtocRtvTCPA.o libsiteadd-c/ebcdic.o generate-resolve/main.o
+GRC_OBJ := generate-resolv/QtocRtvTCPA.o libsiteadd-c/ebcdic.o generate-resolv/main.o
 GRC_DEPS := generate-resolv/QtocRtvTCPA.h libsiteadd-c/ebcdic.h libsiteadd-c/errc.h
 
 # XXX: Hardcoded in scripts
