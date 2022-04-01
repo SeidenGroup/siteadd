@@ -24,9 +24,10 @@
 #include <string.h>
 #include <unistd.h>
 
+#include "../libsiteadd-c/errc.h"
 #include "qwcrtvtz.h"
 #include "qwcrsval.h"
-#include "ebcdic.h"
+#include "../libsiteadd-c/ebcdic.h"
 
 void
 print_RTMZ0100_entry (RTMZ0100_entry *item)

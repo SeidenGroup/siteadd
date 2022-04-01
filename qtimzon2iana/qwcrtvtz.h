@@ -21,14 +21,6 @@
 #define ALL { 0x5C, 0xC1, 0xD3, 0xD3, 0, 0, 0, 0, 0 }
 #define FORMAT_RTMZ0100 { 0xD9, 0xE3, 0xD4, 0xE9, 0xF0, 0xF1, 0xF0, 0xF0 }
 
-/* These probably don't match their names in XPF headers */
-typedef struct {
-	int bytes_in;
-	int bytes_avail;
-	char exception_id[7];
-	char reserved;
-} ERRC0100;
-
 /*
  * Please read the manual for the program for structure contents:
  * https://www.ibm.com/support/knowledgecenter/ssw_ibm_i_72/apis/qwcrtvtz.htm

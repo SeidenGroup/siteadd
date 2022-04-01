@@ -17,6 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
+#include "../libsiteadd-c/errc.h"
 #include "qwcrtvtz.h"
 
 #include <as400_protos.h>
