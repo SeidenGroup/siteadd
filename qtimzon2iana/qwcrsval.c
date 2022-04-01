@@ -23,8 +23,8 @@
 #include <as400_protos.h>
 #include <stdbool.h>
 
-ILEpointer sysval_pgm __attribute__ ((aligned (16)));
-bool sysval_initialized = false;
+static ILEpointer sysval_pgm __attribute__ ((aligned (16)));
+static bool sysval_initialized = false;
 
 static bool
 init_pgm (void)
