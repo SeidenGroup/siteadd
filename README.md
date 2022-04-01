@@ -204,6 +204,24 @@ The following flags are taken:
 
 To enable a site to start on IPL:
 
+### generate-resolv
+
+Generates an AIX `resolv.conf`. Intended for programs that do DNS queries
+themselves or via libresolv, as they don't pick up the IBM i configuration.
+This saves you the effort of porting over your settings.
+
+#### Examples
+
+Take the current configuration and put it in `/etc/resolv.conf`:
+
+```shell
+$ generate-resolv > /etc/resolv.conf
+```
+
+Note that programs depending on reading the resolver configuration will look
+for it at that location. It's tempting to put it in `/QOpenSys/etc`, but that
+won't work.
+
 ### qtimzon2iana
 
 Internal program used by siteadd for converting IBM i `*TIMZON` objects to
