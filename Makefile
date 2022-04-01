@@ -1,6 +1,7 @@
 .PHONY: all dist clean test install
 
 CC := gcc
+# XXX: Do we put libsiteadd-c in -I?
 CFLAGS := -std=gnu11 -Wall -Werror -gxcoff -maix64 -O2
 LDFLAGS :=
 
@@ -8,11 +9,15 @@ QTI_PGM := qtimzon2iana/qtimzon2iana
 QTI_OBJ := qtimzon2iana/qwcrtvtz.o qtimzon2iana/qwcrsval.o libsiteadd-c/ebcdic.o qtimzon2iana/main.o
 QTI_DEPS := qtimzon2iana/qwcrtvtz.h libsiteadd-c/ebcdic.h libsiteadd-c/errc.h
 
+GRC_PGM := generate-resolv/generate-resolve
+GRC_OBJ := generate-resolv/QtocRtvTCPA.o libsiteadd-c/ebcdic.o generate-resolve/main.o
+GRC_DEPS := generate-resolv/QtocRtvTCPA.h libsiteadd-c/ebcdic.h libsiteadd-c/errc.h
+
 # XXX: Hardcoded in scripts
 PREFIX := /QOpenSys/pkgs
 VERSION := 0.9
 
-all: $(QTI_PGM)
+all: $(QTI_PGM) $(GRC_PGM)
 
 clean:
 	rm -f *.tar.gz $(QTI_PGM) $(QTI_OBJ)
@@ -88,4 +93,11 @@ $(QTI_OBJ): %.o : %.c $(QTI_DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 $(QTI_PGM): $(QTI_OBJ)
+	$(CC) -o $@ $^ /QOpenSys/usr/lib/libiconv.a $(CFLAGS) $(LDFLAGS)
+
+# XXX: How much of this can be deduped?
+$(GRC_OBJ): %.o : %.c $(GRC_DEPS)
+	$(CC) -c -o $@ $< $(CFLAGS)
+
+$(GRC_PGM): $(GRC_OBJ)
 	$(CC) -o $@ $^ /QOpenSys/usr/lib/libiconv.a $(CFLAGS) $(LDFLAGS)
