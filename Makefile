@@ -9,7 +9,7 @@ QTI_PGM := qtimzon2iana/qtimzon2iana
 QTI_OBJ := qtimzon2iana/qwcrtvtz.o qtimzon2iana/qwcrsval.o libsiteadd-c/ebcdic.o qtimzon2iana/main.o
 QTI_DEPS := qtimzon2iana/qwcrtvtz.h libsiteadd-c/ebcdic.h libsiteadd-c/errc.h
 
-GRC_PGM := generate-resolv/generate-resolve
+GRC_PGM := generate-resolv/generate-resolv
 GRC_OBJ := generate-resolv/QtocRtvTCPA.o libsiteadd-c/ebcdic.o generate-resolv/main.o
 GRC_DEPS := generate-resolv/QtocRtvTCPA.h libsiteadd-c/ebcdic.h libsiteadd-c/errc.h
 
