@@ -20,7 +20,7 @@ VERSION := 0.9
 all: $(QTI_PGM) $(GRC_PGM)
 
 clean:
-	rm -f *.tar.gz $(QTI_PGM) $(QTI_OBJ)
+	rm -f *.tar.gz $(QTI_PGM) $(QTI_OBJ) $(GRC_PGM) $(GRC_OBJ)
 
 dist:
 	# XXX: hardcodes a lot
