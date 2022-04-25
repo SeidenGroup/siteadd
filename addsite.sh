@@ -339,6 +339,13 @@ banner_msg "If you want to start this web server now, run the following CL comma
 indent_msg "STRTCPSVR SERVER(*HTTP) HTTPSVR($SITE_NAME)"
 banner_msg "Want to run that from a PASE shell? Use:"
 indent_msg "system STRTCPSVR \"SERVER(*HTTP)\" \"HTTPSVR($SITE_NAME)\""
+# Only relevant if Service Commander is installed
+if [ -x "/QOpenSys/pkgs/bin/sc_install_defaults" ]; then
+	banner_msg "Want to use Service Commander for this and other Apache instances:"
+	indent_msg "/QOpenSys/pkgs/bin/sc_install_defaults --apache"
+	banner_msg "Want to see which instances are registered with Service Commander?"
+	indent_msg "/QOpenSys/pkgs/bin/sc list group:apache"
+fi
 # Only relevant with custom PHP config for site
 if [ "$MAKE_ETCPHP" = "yes" ]; then
 	banner_msg "Want to run PHP CLI programs with your server's configuration? Use the shell command:"
