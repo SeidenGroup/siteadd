@@ -61,7 +61,7 @@ APACHEDIR="/www/$SITE_NAME/"
 
 # Maybe check for PFM too, but could break -r
 if [ ! -d "$APACHEDIR" ]; then
-	error_msg "The site doesn't exist."
+	error_msg "The site directory doesn't exist."
 	exit 2
 fi
 
