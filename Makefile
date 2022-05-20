@@ -24,7 +24,7 @@ clean:
 
 dist:
 	# XXX: hardcodes a lot
-	git archive --prefix=siteadd-$(VERSION)/ --format=tar.gz -o siteadd-$(VERSION).tar.gz HEAD *.sh *.php qtimzon2iana/ template/ template-legacy-db/ README.md COPYING Makefile
+	git archive --prefix=siteadd-$(VERSION)/ --format=tar.gz -o siteadd-$(VERSION).tar.gz HEAD *.sh *.php qtimzon2iana/ generate-resolv/ libsiteadd-c/ template/ template-legacy-db/ README.md COPYING Makefile
 
 test:
 	# requires shellcheck, obviously
@@ -46,6 +46,7 @@ install: $(QTI_PGM)
 	install -D -m 755 toggle-db-script.sh $(DESTDIR)$(PREFIX)/bin/toggle-db
 	install -D -m 755 toggle-autostart.sh $(DESTDIR)$(PREFIX)/bin/toggle-autostart
 	install -D -m 755 $(QTI_PGM) $(DESTDIR)$(PREFIX)/bin/qtimzon2iana
+	install -D -m 755 $(GRC_PGM) $(DESTDIR)$(PREFIX)/bin/generate-resolv
 	install -D -m 755 libsiteadd.sh $(DESTDIR)$(PREFIX)/lib/siteadd/libsiteadd.sh
 	install -D -m 755 canlisten.php $(DESTDIR)$(PREFIX)/bin/canlisten
 	install -D -m 755 transform-php-config.sh $(DESTDIR)$(PREFIX)/bin/transform-php-config
