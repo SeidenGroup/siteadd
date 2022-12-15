@@ -50,6 +50,8 @@ The following flags are taken:
 * `-T`: Override the default template directory. If a path isn't specified
   (this is done through including a directory separator), then siteadd will
   treat the name as a subdirectory of `/QOpenSys/pkgs/share/siteadd`.
+* `-A`: Override the default bind address. Must be a valid IPv4/IPv6 address,
+  or a wildcard (default) to bind to all.
 
 #### Examples
 

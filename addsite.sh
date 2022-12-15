@@ -30,7 +30,7 @@ else
 fi
 
 usage() {
-	echo "Usage: $0 -p port -n site_name [-C old_site] [-T template_directory] [-I|-i] [-f] [-Y|-N] [-P php_version] [-c chroot_path]"
+	echo "Usage: $0 -p port -n site_name [-C old_site] [-T template_directory] [-I|-i] [-f] [-Y|-N] [-P php_version] [-c chroot_path] [-A addr]"
 	echo ""
 	echo "Creates a site from a template."
 	echo ""
@@ -57,6 +57,7 @@ usage() {
 	echo "  -Y: If the site should start automatically. Default."
 	echo "  -N: If the site should not start automatically."
 	echo "  -T: The template directory to use instead of the default."
+	echo "  -A: The IP address to bind to. Wildcard by default."
 	exit 255
 }
 
@@ -68,6 +69,7 @@ OLD_SITENAME=""
 CHROOT_PREFIX=""
 FORCE_PORT=no
 FORCE_PHP_VERSION=""
+BIND_ADDRESS="*"
 
 # before anything could use i.e. M4
 check_packages
@@ -142,6 +144,10 @@ while getopts ":p:n:T:C:c:YNfIiP:" o; do
 			;;
 		"c")
 			CHROOT_PREFIX=${OPTARG}
+			;;
+		"A")
+			# XXX: Validate IPv4/6 address (regex?)
+			BIND_ADDRESS=${OPTARG}
 			;;
 		"I")
 			MAKE_ETCPHP=yes

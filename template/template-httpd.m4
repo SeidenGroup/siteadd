@@ -4,7 +4,7 @@
 # site in HTTPAdmin, but with FastCGI support for PHP enabled. Some useful
 # additional configuration options are commented out for further exploration.
 
-Listen *:xPORT
+Listen xADDRESS:xPORT
 
 # Some additional modules you can enable...
 # Proxy modules:
