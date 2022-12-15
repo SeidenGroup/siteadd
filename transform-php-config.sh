@@ -72,6 +72,9 @@ while getopts "T:P:d:c:" o; do
 			8.1)
 				FORCE_PHP_VERSION=8.1
 				;;
+			8.2)
+				FORCE_PHP_VERSION=8.2
+				;;
 			*)
 				error_msg "The PHP version is invalid."
 				exit 14

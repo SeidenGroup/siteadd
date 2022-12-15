@@ -1,0 +1,2 @@
+; This is a file to make sure the conf.d directory is made properly.
+; If this file exists, the template likely has no custom extension options.
