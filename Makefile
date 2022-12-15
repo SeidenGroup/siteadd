@@ -59,10 +59,12 @@ install: $(QTI_PGM)
 	install -D -m 644 template/phpconf-7.4/php.ini.m4 $(DESTDIR)$(PREFIX)/share/siteadd/template/phpconf-7.4/php.ini.m4
 	install -D -m 644 template/phpconf-8.0/php.ini.m4 $(DESTDIR)$(PREFIX)/share/siteadd/template/phpconf-8.0/php.ini.m4
 	install -D -m 644 template/phpconf-8.1/php.ini.m4 $(DESTDIR)$(PREFIX)/share/siteadd/template/phpconf-8.1/php.ini.m4
+	install -D -m 644 template/phpconf-8.2/php.ini.m4 $(DESTDIR)$(PREFIX)/share/siteadd/template/phpconf-8.2/php.ini.m4
 	install -D -m 644 template/phpconf-7.3/conf.d/dummy.txt $(DESTDIR)$(PREFIX)/share/siteadd/template/phpconf-7.3/conf.d/dummy.txt
 	install -D -m 644 template/phpconf-7.4/conf.d/dummy.txt $(DESTDIR)$(PREFIX)/share/siteadd/template/phpconf-7.4/conf.d/dummy.txt
 	install -D -m 644 template/phpconf-8.0/conf.d/dummy.txt $(DESTDIR)$(PREFIX)/share/siteadd/template/phpconf-8.0/conf.d/dummy.txt
 	install -D -m 644 template/phpconf-8.1/conf.d/dummy.txt $(DESTDIR)$(PREFIX)/share/siteadd/template/phpconf-8.1/conf.d/dummy.txt
+	install -D -m 644 template/phpconf-8.2/conf.d/dummy.txt $(DESTDIR)$(PREFIX)/share/siteadd/template/phpconf-8.2/conf.d/dummy.txt
 	# Legacy DB template
 	install -D -m 755 template-legacy-db/preflight.sh $(DESTDIR)$(PREFIX)/share/siteadd/template-legacy-db/preflight.sh
 	install -D -m 644 template-legacy-db/template-httpd.m4 $(DESTDIR)$(PREFIX)/share/siteadd/template-legacy-db/template-httpd.m4
@@ -73,6 +75,7 @@ install: $(QTI_PGM)
 	install -D -m 644 template-legacy-db/phpconf-7.4/php.ini.m4 $(DESTDIR)$(PREFIX)/share/siteadd/template-legacy-db/phpconf-7.4/php.ini.m4
 	install -D -m 644 template-legacy-db/phpconf-8.0/php.ini.m4 $(DESTDIR)$(PREFIX)/share/siteadd/template-legacy-db/phpconf-8.0/php.ini.m4
 	install -D -m 644 template-legacy-db/phpconf-8.1/php.ini.m4 $(DESTDIR)$(PREFIX)/share/siteadd/template-legacy-db/phpconf-8.1/php.ini.m4
+	install -D -m 644 template-legacy-db/phpconf-8.2/php.ini.m4 $(DESTDIR)$(PREFIX)/share/siteadd/template-legacy-db/phpconf-8.2/php.ini.m4
 	install -D -m 644 template-legacy-db/phpconf-7.3/conf.d/20-odbc.ini $(DESTDIR)$(PREFIX)/share/siteadd/template-legacy-db/phpconf-7.3/conf.d/20-odbc.ini
 	install -D -m 644 template-legacy-db/phpconf-7.3/conf.d/30-pdo_odbc.ini $(DESTDIR)$(PREFIX)/share/siteadd/template-legacy-db/phpconf-7.3/conf.d/30-pdo_odbc.ini
 	install -D -m 644 template-legacy-db/phpconf-7.3/conf.d/99-ibm_db2.ini $(DESTDIR)$(PREFIX)/share/siteadd/template-legacy-db/phpconf-7.3/conf.d/99-ibm_db2.ini
@@ -89,6 +92,10 @@ install: $(QTI_PGM)
 	install -D -m 644 template-legacy-db/phpconf-8.1/conf.d/30-pdo_odbc.ini $(DESTDIR)$(PREFIX)/share/siteadd/template-legacy-db/phpconf-8.1/conf.d/30-pdo_odbc.ini
 	install -D -m 644 template-legacy-db/phpconf-8.1/conf.d/99-ibm_db2.ini $(DESTDIR)$(PREFIX)/share/siteadd/template-legacy-db/phpconf-8.1/conf.d/99-ibm_db2.ini
 	install -D -m 644 template-legacy-db/phpconf-8.1/conf.d/99-pdo_ibm.ini $(DESTDIR)$(PREFIX)/share/siteadd/template-legacy-db/phpconf-8.1/conf.d/30-pdo_idm.ini
+	install -D -m 644 template-legacy-db/phpconf-8.2/conf.d/20-odbc.ini $(DESTDIR)$(PREFIX)/share/siteadd/template-legacy-db/phpconf-8.2/conf.d/20-odbc.ini
+	install -D -m 644 template-legacy-db/phpconf-8.2/conf.d/30-pdo_odbc.ini $(DESTDIR)$(PREFIX)/share/siteadd/template-legacy-db/phpconf-8.2/conf.d/30-pdo_odbc.ini
+	install -D -m 644 template-legacy-db/phpconf-8.2/conf.d/99-ibm_db2.ini $(DESTDIR)$(PREFIX)/share/siteadd/template-legacy-db/phpconf-8.2/conf.d/99-ibm_db2.ini
+	install -D -m 644 template-legacy-db/phpconf-8.2/conf.d/99-pdo_ibm.ini $(DESTDIR)$(PREFIX)/share/siteadd/template-legacy-db/phpconf-8.2/conf.d/30-pdo_idm.ini
 
 $(QTI_OBJ): %.o : %.c $(QTI_DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
