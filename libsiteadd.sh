@@ -101,7 +101,8 @@ set_ccsid_var() {
 		# Get the current job CCSID (in process).
 		# DFTCCSID is used because CCSID can be 65535 (bad)
 		# Not sure about the cut point. cl/system will strip end WS
-		CCSID=$(cl dspjob | grep DFTCCSID | cut -b 66-)
+		# use system instead of cl because some systems are misconfigured (qp2term issue?)
+		CCSID=$(system dspjob | grep DFTCCSID | cut -b 66-)
 	fi
 	banner_msg "The selected CCSID is $CCSID"
 }
