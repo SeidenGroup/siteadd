@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Create HTTP server and populate PHP config for it
-# Copyright (C) 2020-2021 Seiden Group
+# Copyright (C) 2020-2022 Seiden Group
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
