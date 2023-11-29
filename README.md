@@ -89,7 +89,7 @@ addsite -p 8084 -n testsite5 -c /QOpenSys/chroots/php81 -P 8.1 -N
 
 ### rmsite
 
-Takes the name of the site, and optionally the `-f` flag.
+Takes the name of the site, and optionally the `-r` flag.
 
 Regardless, It will end the HTTP server, unregister the site from the known
 list of sites, and (optionally) remove the directory.
