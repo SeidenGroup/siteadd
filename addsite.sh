@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Create HTTP server and populate PHP config for it
-# Copyright (C) 2020-2021 Seiden Group
+# Copyright (C) 2020-2024 Seiden Group
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -74,7 +74,7 @@ BIND_ADDRESS="*"
 # before anything could use i.e. M4
 check_packages
 
-while getopts ":p:n:T:C:c:YNfIiP:" o; do
+while getopts ":p:n:T:C:c:YNfIiP:A:" o; do
 	case "${o}" in
 		"p")
 			SITE_PORT=${OPTARG}
