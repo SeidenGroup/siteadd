@@ -105,7 +105,7 @@ rmsite badsite
 To delete a site and delete all its files (**destructive**):
 
 ```shell
-rmsite -f badsite
+rmsite -r badsite
 ```
 
 ### dspsite
