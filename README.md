@@ -249,6 +249,25 @@ $ qtimzon2iana QN0400AST
 Atlantic/Bermuda
 ```
 
+### update-ini-for-nortl
+
+Automatically updates the INI files to omit references to extensions that are
+now built into the PHP binary rather than loaded as extensions, as of August
+12th, 2024.
+
+It takes a list of site names to update.
+
+This is not needed for the "global" PHP config (`/QOpenSys/etc/php/conf.d`),
+as RPM will automatically adjust it if you haven't manually edited the files.
+
+#### Examples
+
+Run for sites `seidenphp` and `newsite`:
+
+```
+$ update-ini-for-nortl seidenphp newsite
+```
+
 ## Template structure
 
 The `-T` flag is used to override what templates are used for substitutions.
