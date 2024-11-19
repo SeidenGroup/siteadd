@@ -49,6 +49,7 @@ fi
 SITE_NAME=$1
 
 PF_MEMBER="/QSYS.LIB/QUSRSYS.LIB/QATMHINSTC.FILE/$SITE_NAME.MBR"
+# XXX: Parse member for -d flag
 # PHP conf is under here too. do not add a trailing slash for dspsite
 APACHEDIR="/www/$SITE_NAME"
 
@@ -63,13 +64,15 @@ Rfile -r "$PF_MEMBER"
 
 echo
 
+# XXX: Parse fastcgi.conf
 echo "Site directory (logs, htdocs, conf): $APACHEDIR"
-LOGFILE="/QOpenSys/var/log/php_error.log"
 CONFDIR="/QOpenSys/etc/php"
+# XXX: wouldn't pick up INI changes in conf.d
+LOGFILE=$(PHPRC=$CONFDIR PHP_INI_SCAN_DIR=$CONFDIR/conf.d php -r "echo ini_get('error_log');")
 CONFTYPE="global"
 if [ -d "$APACHEDIR/phpconf" ]; then
 	CONFDIR="$APACHEDIR/phpconf"
-	LOGFILE="$APACHEDIR/logs/php_error.log"
+	LOGFILE=$(PHPRC=$CONFDIR PHP_INI_SCAN_DIR=$CONFDIR/conf.d php -r "echo ini_get('error_log');")
 	CONFTYPE="site-specific"
 fi
 echo "Log file ($CONFTYPE): $LOGFILE"
