@@ -49,7 +49,7 @@ check_dir() {
 
 not_gnu_version() {
 	error_msg "$1 isn't the GNU version, exiting"
-	error_msg "make sure PATH is set properly: https://www.seidengroup.com/php-documentation/how-to-set-the-path-to-open-source-packages-on-ibm-i/"
+	error_msg "Set the path as documented here (QShell users need PASE_PATH): https://www.seidengroup.com/php-documentation/how-to-set-the-path-to-open-source-packages-on-ibm-i/"
 }
 
 # checks sanity of installed packages
