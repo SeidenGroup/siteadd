@@ -70,6 +70,8 @@ CHROOT_PREFIX=""
 FORCE_PORT=no
 FORCE_PHP_VERSION=""
 BIND_ADDRESS="*"
+# overridden as needed
+EXECUTABLE=""
 
 # before anything could use i.e. M4
 check_packages
@@ -198,6 +200,7 @@ fi
 
 TMPL_HTTP="$TMPL_DIR/template-httpd.m4"
 TMPL_FCGI="$TMPL_DIR/template-fastcgi.m4"
+TMPL_BIN="$TMPL_DIR/template-wrapper.m4"
 TMPL_PHPCONF="$TMPL_DIR/phpconf-$PHP_VERSION"
 TMPL_PHPCONF_D="$TMPL_DIR/phpconf-$PHP_VERSION/conf.d"
 TMPL_HTDOCS="$TMPL_DIR/htdocs"
@@ -286,10 +289,14 @@ EOF
 banner_msg "Added PFM for HTTPd"
 
 # Create /www directory
-for dir in {logs,conf,htdocs}; do
+for dir in {bin,logs,run,conf,htdocs}; do
 	mkdir -p "$APACHEDIR/$dir"
 done
 banner_msg "Made directories for web server"
+
+EXECUTABLE="php" m4_wrap "$TMPL_BIN" "$APACHEDIR/bin/php"
+EXECUTABLE="php-cgi" m4_wrap "$TMPL_BIN" "$APACHEDIR/bin/php-cgi"
+banner_msg "Made wrapper executables"
 
 if [ -n "$OLD_SITENAME" ]; then
 	cp -R "/www/$OLD_SITENAME/htdocs/"* "$APACHEDIR/htdocs/"
