@@ -1,10 +1,10 @@
 .PHONY: all dist clean test install
 
 CC := gcc
-CXX := gcc
+CXX := g++
 # XXX: Do we put libsiteadd-c in -I?
 CFLAGS := -std=gnu11 -Wall -Werror -gxcoff -maix64 -O2
-CFLAGS := -std=c++14 -Wall -Werror -gxcoff -maix64 -O2
+CXXFLAGS := -std=c++14 -Wall -Werror -gxcoff -maix64 -O2
 LDFLAGS :=
 
 QTI_PGM := qtimzon2iana/qtimzon2iana
@@ -115,21 +115,14 @@ install: $(QTI_PGM)
 	install -D -m 644 template-legacy-db/phpconf-8.4/conf.d/99-ibm_db2.ini $(DESTDIR)$(PREFIX)/share/siteadd/template-legacy-db/phpconf-8.4/conf.d/99-ibm_db2.ini
 	install -D -m 644 template-legacy-db/phpconf-8.4/conf.d/99-pdo_ibm.ini $(DESTDIR)$(PREFIX)/share/siteadd/template-legacy-db/phpconf-8.4/conf.d/30-pdo_idm.ini
 
-$(QTI_OBJ): %.o : %.c $(QTI_DEPS)
+%.o: %.c $(QTI_DEPS) $(GRC_DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-$(QTI_OBJ): %.o : %.cxx $(QTI_DEPS)
+%.o: %.cxx $(QTI_DEPS) $(GRC_DEPS)
 	$(CXX) -c -o $@ $< $(CXXFLAGS)
 
 $(QTI_PGM): $(QTI_OBJ)
 	$(CXX) -o $@ $^ /QOpenSys/usr/lib/libiconv.a $(CXXFLAGS) $(LDFLAGS)
-
-# XXX: How much of this can be deduped?
-$(GRC_OBJ): %.o : %.c $(GRC_DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS)
-
-$(GRC_OBJ): %.o : %.cxx $(GRC_DEPS)
-	$(CXX) -c -o $@ $< $(CXXFLAGS)
 
 $(GRC_PGM): $(GRC_OBJ)
 	$(CXX) -o $@ $^ /QOpenSys/usr/lib/libiconv.a $(CXXFLAGS) $(LDFLAGS)
