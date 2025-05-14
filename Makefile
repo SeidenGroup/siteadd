@@ -1,17 +1,19 @@
 .PHONY: all dist clean test install
 
 CC := gcc
+CXX := gcc
 # XXX: Do we put libsiteadd-c in -I?
 CFLAGS := -std=gnu11 -Wall -Werror -gxcoff -maix64 -O2
+CFLAGS := -std=c++14 -Wall -Werror -gxcoff -maix64 -O2
 LDFLAGS :=
 
 QTI_PGM := qtimzon2iana/qtimzon2iana
-QTI_OBJ := qtimzon2iana/qwcrtvtz.o qtimzon2iana/qwcrsval.o libsiteadd-c/ebcdic.o qtimzon2iana/main.o
-QTI_DEPS := qtimzon2iana/qwcrtvtz.h libsiteadd-c/ebcdic.h libsiteadd-c/errc.h
+QTI_OBJ := libsiteadd-c/ebcdic.o qtimzon2iana/main.o
+QTI_DEPS := qtimzon2iana/qwcrtvtz.h libsiteadd-c/ebcdic.h libsiteadd-c/errc.h libsiteadd-c/pgmfunc.hxx libsiteadd-c/ebcdic.hxx
 
 GRC_PGM := generate-resolv/generate-resolv
-GRC_OBJ := generate-resolv/QtocRtvTCPA.o libsiteadd-c/ebcdic.o generate-resolv/main.o
-GRC_DEPS := generate-resolv/QtocRtvTCPA.h libsiteadd-c/ebcdic.h libsiteadd-c/errc.h
+GRC_OBJ := libsiteadd-c/ebcdic.o generate-resolv/main.o
+GRC_DEPS := generate-resolv/QtocRtvTCPA.h libsiteadd-c/ebcdic.h libsiteadd-c/errc.h libsiteadd-c/ilefunc.hxx libsiteadd-c/ebcdic.hxx
 
 # XXX: Hardcoded in scripts
 PREFIX := /QOpenSys/pkgs
@@ -116,12 +118,18 @@ install: $(QTI_PGM)
 $(QTI_OBJ): %.o : %.c $(QTI_DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
+$(QTI_OBJ): %.o : %.cxx $(QTI_DEPS)
+	$(CXX) -c -o $@ $< $(CXXFLAGS)
+
 $(QTI_PGM): $(QTI_OBJ)
-	$(CC) -o $@ $^ /QOpenSys/usr/lib/libiconv.a $(CFLAGS) $(LDFLAGS)
+	$(CXX) -o $@ $^ /QOpenSys/usr/lib/libiconv.a $(CXXFLAGS) $(LDFLAGS)
 
 # XXX: How much of this can be deduped?
 $(GRC_OBJ): %.o : %.c $(GRC_DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
+$(GRC_OBJ): %.o : %.cxx $(GRC_DEPS)
+	$(CXX) -c -o $@ $< $(CXXFLAGS)
+
 $(GRC_PGM): $(GRC_OBJ)
-	$(CC) -o $@ $^ /QOpenSys/usr/lib/libiconv.a $(CFLAGS) $(LDFLAGS)
+	$(CXX) -o $@ $^ /QOpenSys/usr/lib/libiconv.a $(CXXFLAGS) $(LDFLAGS)

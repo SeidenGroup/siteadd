@@ -27,13 +27,22 @@
 #include "../libsiteadd-c/errc.h"
 #include "qwcrtvtz.h"
 #include "qwcrsval.h"
+#include "../libsiteadd-c/ebcdic.hxx"
 #include "../libsiteadd-c/ebcdic.h"
+#include "../libsiteadd-c/pgmcall.hxx""
+
+EF<8> _ALL("*ALL");
+EF<8> RTMZ0100_name("RTMZ0100");
+EF<10> QTIMZON("QTIMZON")
+
+static auto QWCRTVTZ = PGMFunction<void*, int, const char*, const char *>("QSYS", "QWCRTVTV");
+static auto QWCRSVAL = PGMFunction<void*, int, int, char*, Qus_EC_t*>("QSYS", "QWCRSVAL");
 
 void
-print_RTMZ0100_entry (RTMZ0100_entry *item)
+print_RTMZ0100_entry (Qwc_RTMZ_Time_Zone_Info_t *item)
 {
 	char utf[129], *first_space;
-	ebcdic2utf (item->alternative_name, 50, utf);
+	ebcdic2utf (item->Alternate_Name, 50, utf);
 	/* Truncate on first space */
 	first_space = strchr(utf, ' ');
 	if (first_space) {
@@ -55,15 +64,14 @@ get_RTMZ0100_entries (char *name)
 {
 	int outlen = 1000000;
 	char *out = malloc(outlen);
-	char format[] = FORMAT_RTMZ0100;
 	ERRC0100 err = { 0 };
 	err.bytes_in = sizeof (err);
 	
-	qwcrtvtz((void*)out, &outlen, format, name, &err);
-	RTMZ0100_header *hdr = (RTMZ0100_header*)out;
+	QWCRTVTZ((void*)out, &outlen, RTMZ0100_name.value, name, &err);
+	Qwc_RTMZ0100_t *hdr = (Qwc_RTMZ0100_t*)out;
 	/* assume victory */
 	for (int i = 0; i < hdr->num_returned; i++) {
-		RTMZ0100_entry *item = (RTMZ0100_entry*)(out + hdr->offset + (hdr->entry_length * i));
+		Qwc_RTMZ_Time_Zone_Info_t *item = (Qwc_RTMZ_Time_Zone_Info_t*)(out + hdr->offset + (hdr->entry_length * i));
 		print_RTMZ0100_entry (item);
 	}
 }
@@ -73,24 +81,22 @@ static char*
 get_current_timzon (void)
 {
 	int outlen = 1000000, num_elem = 1;
-	Sysvals *out = malloc (outlen);
-	SysvalEntry *entry;
+	Qwc_Rsval_Data_Rtnd_t *out = malloc (outlen);
+	Qwc_Rsval_Sys_Value_Table_t *entry;
 	char *out_str;
 	ERRC0100 err = { 0 };
-	/* EBCDIC "QTIMZON   " */
-	char name[1][10] = { { 0xD8, 0xE3, 0xC9, 0xD4, 0xE9, 0xD6, 0xD5, 0x40, 0x40, 0x40 } };
 	err.bytes_in = sizeof (err);
 
-	qwcrsval ((void*)out, &outlen, &num_elem, (char**)name, &err);
+	QWCRSVAL((void*)out, &outlen, &num_elem, QTIMZON.value, &err);
 	if (out->num_returned != 1) {
 		return NULL;
 	}
-	entry = (SysvalEntry*)((char*)out + out->offsets[0]);
+	entry = (Qwc_Rsval_Sys_Value_Table_t*)((char*)out + out->Offset_Sys_Val_Table[0]);
 	out_str = malloc (11);
 	if (!out_str) {
 		return NULL;
 	}
-	memcpy(out_str, entry->data, 10);
+	memcpy(out_str, entry->Data, 10);
 	return out_str;
 }
 

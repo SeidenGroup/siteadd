@@ -1,70 +1,59 @@
-/*
- * Wrapper around IBM i *PGM for retrieving time zone information
- *
- * Copyright (C) 2021 Seiden Group
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- */
+ typedef struct __attribute__((packed)) Qwc_RTMZ_Time_Zone_Info {
+      char Time_Zone_Object[10];
+      char Local_System_Time_Indicator;
+      char Daylight_Saving_Time_Indicator;
+      int Offset_From_UTC;
+      char Standard_Abbreviated_Name[10];
+      char Standard_Full_Name[50];
+      char DST_Abbreviated_Name[10];
+      char DST_Full_Name[50];
+      char Standard_Message[7];
+      char DST_Message[7];
+      char Message_File[10];
+      char Message_File_Library[10];
+      char DST_Start_Month[2];
+      char DST_Start_Day;
+      char DST_Start_Relative_Day;
+      char DST_Start_Time[6];
+      char DST_End_Month[2];
+      char DST_End_Day;
+      char DST_End_Relative_Day;
+      char DST_End_Time[6];
+      char Text_Description[50];
+      int DST_Shift;
+      int Year_Offset;
+      char Alternate_Name[128];
 
-/* EBCDIC */
-#define ALL { 0x5C, 0xC1, 0xD3, 0xD3, 0, 0, 0, 0, 0 }
-#define FORMAT_RTMZ0100 { 0xD9, 0xE3, 0xD4, 0xE9, 0xF0, 0xF1, 0xF0, 0xF0 }
+  } Qwc_RTMZ_Time_Zone_Info_t;
 
-/*
- * Please read the manual for the program for structure contents:
- * https://www.ibm.com/support/knowledgecenter/ssw_ibm_i_72/apis/qwcrtvtz.htm
- */
+ typedef struct __attribute__((packed)) Qwc_RTMZ0100
+    {
+       int Bytes_Returned;
+       int Bytes_Available;
+       int Time_Zone_Available;
+       int Time_Zone_Offset;
+       int Time_Zone_Returned;
+       int Time_Zone_Length;
 
-typedef struct {
-	int bytes_returned;
-	int bytes_available;
-	int num_available;
-	int offset;
-	int num_returned;
-	int entry_length;
-	/* Reserved area */
-} RTMZ0100_header;
 
-/*
- * char values for numerics are zoned decimals, even the one-byte booleans
- */
-typedef struct {
-	char name[10];
-	char local_system_time;
-	char dst;
-	int utc_offset;
-	char standard_abbr[10];
-	char standard_name[50];
-	char daylight_abbr[10];
-	char daylight_name[50];
-	char standard_msg[7];
-	char daylight_msg[7];
-	char msg_name[10];
-	char msg_library[10];
-	char daylight_start_month[2];
-	char daylight_start_day;
-	char daylight_start_day_of_month;
-	char daylight_start_time[6];
-	char daylight_end_month[2];
-	char daylight_end_day;
-	char daylight_end_day_of_month;
-	char daylight_end_time[6];
-	char description[50];
-	int daylight_shift;
-	int year_offset;
-	char alternative_name[128];
-	/* Reserved area */
-} RTMZ0100_entry;
+    } Qwc_RTMZ0100_t;
 
-void qwcrtvtz(void*, int*, char*, char*, ERRC0100*);
+ typedef struct __attribute__((packed)) Qwc_RTMZ_TZ_String {
+      int Entry_Length;
+      int Disp_To_String;
+      int String_Length;
+      char Time_Zone_Object[10];
+
+
+  } Qwc_RTMZ_TZ_String_t;
+
+ typedef struct __attribute__((packed)) Qwc_RTMZ0200
+    {
+       int Bytes_Returned;
+       int Bytes_Available;
+       int Time_Zone_Available;
+       int Time_Zone_Offset;
+       int Time_Zone_Returned;
+
+
+    } Qwc_RTMZ0200_t;

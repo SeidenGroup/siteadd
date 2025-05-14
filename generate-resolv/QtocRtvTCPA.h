@@ -1,58 +1,36 @@
-/*
- * Retrieve TCP attributes
- *
- * Copyright (C) 2022 Seiden Group
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- */
+typedef struct __attribute__((packed)) Qtoc_RtvTCPA_TCPA1100
+{
+	unsigned long Bytes_Returned;
+	unsigned long Bytes_Available;
+	unsigned long TCPIP6_Stack_Status;
+	unsigned long Offset_To_Additional_Info;
+	unsigned long Length_Of_Additional_Info;
+	unsigned long TCPIP4_Stack_Status;
+	char data[];
+} Qtoc_RtvTCPA_TCPA1100_t;
 
-typedef struct {
-	int bytes_returned;
-	int bytes_available;
-	int v6_status;
-	int offset;
-	int length;
-	int v4_status;
-	unsigned char data[];
-	/* After this, the actual values */
-} TCPA1100;
+typedef struct __attribute__((packed)) Qtoc_RtvTCPA_TCPA1400
+{
+	unsigned long Offset_To_List_DNS_Addr;
+	unsigned long Number_Of_DNS_Addresses;
+	unsigned long Entry_Len_List_DNS_Addr;
+	unsigned long DNS_Protocol;
+	unsigned long Retries;
+	unsigned long Time_Interval;
+	unsigned long Search_Order;
+	unsigned long Initial_DNS_Server;
+	unsigned long DNS_Listening_Port;
+	char Host_Name[64];
+	char Domain_Name[255];
+	char Reserved_1;
+	char Domain_Search_List[256];
+	unsigned long DNSSEC;
+} Qtoc_RtvTCPA_TCPA1400_t;
 
-#define FORMAT_TCPA1400 { 0xE3, 0xC3, 0xD7, 0xC1, 0xF1, 0xF4, 0xF0, 0xF0 }
-
-typedef struct {
-	int dns_address_offset;
-	int dns_address_count;
-	int dns_address_length;
-	int dns_protocol;
-	int dns_retries;
-	int dns_time_interval;
-	int dns_search_order;
-	int dns_initial_server;
-	int dns_listening_port;
-	char host_name[64];
-	char domain_name[255];
-	char _reserved;
-	char search_list[256];
-	int dns_dnssec;
-	/* the displacement relative from TCPA1100 is used it seems */
-} TCPA1400;
-
-typedef struct {
-	int protocol;
-	char address_string[45];
-	char _reserved[3];
-	char address_binary[16];
-} TCPA1400_DNSAddress;
-
-void QtocRtvTCPA(void*, int*, char*, ERRC0100*);
+typedef struct __attribute__((packed)) Qtoc_RtvTCPA_LIA_IP4_IP6
+{
+	unsigned long Protocol_Version;
+	char DNS_Internet_Address[45];
+	char Reserved_1[3];
+	char DNS_Internet_Address_Binary[16];
+} Qtoc_RtvTCPA_Inet_Addr_IP4_IP6_t;
