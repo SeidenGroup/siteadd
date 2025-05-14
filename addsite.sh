@@ -337,6 +337,9 @@ fi
 
 # Set authorities (can't set ACLs from PASE) for default HTTP user
 # XXX: make changeable?
+# Note that the group owner of the socket directory must NOT be set;
+# this doesn't seem documented.
+chgrp -R 0 "$APACHEDIR"
 system "chgaut obj('$APACHEDIR') user(qtmhhttp) dtaaut(*rwx) objaut(*all) subtree(*all)"
 banner_msg "Set authorities"
 
