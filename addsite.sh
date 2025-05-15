@@ -373,6 +373,6 @@ if [ -x "/QOpenSys/pkgs/bin/sc_install_defaults" ]; then
 fi
 # Only relevant with custom PHP config for site
 if [ "$MAKE_ETCPHP" = "yes" ]; then
-	banner_msg "Want to run PHP CLI programs with your server's configuration? Use the shell command:"
-	indent_msg "PHPRC=\"$ETCPHPDIR\" PHP_INI_SCAN_DIR=\"$ETCPHPCONFDDIR\" $CHROOT_PREFIX/QOpenSys/pkgs/bin/php"
+	banner_msg "Want to run PHP CLI programs with your server's configuration? Use the command:"
+	indent_msg "$APACHEDIR/bin/php"
 fi
