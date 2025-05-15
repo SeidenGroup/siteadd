@@ -83,10 +83,11 @@ get_installed_php_version() {
 # Gather the timezone, since TZ is set NOT the IANA values under PASE
 # (at least by default); we have a program to gather the current *TIMZON
 # and the IANA name associated with it. PHP has its own built-in TZ DB.
-# If TZ is already set as an IANA value, use it.
+# If TZ is already set as an IANA value, use it, but avoid the <EST>
+# type string that PASE defaults to.
 # Sets the timezone in a global. Assumes vars for TZ or TZ tool are set.
 set_timezone_var() {
-	if [[ -v TZ ]] && echo "$TZ" | grep -qs "/"; then
+	if [[ -v TZ ]] && echo "$TZ" | grep -qs "/" && echo "$TZ" | grep -qsv "<"; then
 		export TIMEZONE="$TZ"
 	else
 		export TIMEZONE=$($QTIMZON2IANA || echo "UTC")
