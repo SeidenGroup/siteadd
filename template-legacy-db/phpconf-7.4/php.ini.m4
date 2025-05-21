@@ -1313,7 +1313,7 @@ session.save_handler = files
 
 ; RPM note : session directory must be owned by process owner
 ; for php-fpm, see @SYSCONF_DIR@/php-fpm.d/*conf
-;session.save_path = "/tmp"
+session.save_path = "xAPACHEDIR/sessions"
 
 ; Whether to use strict session mode.
 ; Strict session mode does not accept an uninitialized session ID, and

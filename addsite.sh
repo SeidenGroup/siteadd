@@ -289,7 +289,7 @@ EOF
 banner_msg "Added PFM for HTTPd"
 
 # Create /www directory
-for dir in {bin,logs,run,conf,htdocs}; do
+for dir in {bin,logs,run,conf,sessions,htdocs}; do
 	mkdir -p "$APACHEDIR/$dir"
 done
 banner_msg "Made directories for web server"
