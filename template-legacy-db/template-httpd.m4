@@ -59,3 +59,7 @@ SetEnvIf "User-Agent" "MSIE 4\.0b2;" force-response-1.0
    Require all granted
 </Directory>
 
+# Deny access to crash dumps, which may contain sensitive information in memory
+<Files "core">
+   Require all denied
+</Files>
