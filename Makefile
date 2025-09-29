@@ -57,6 +57,7 @@ install: $(QTI_PGM)
 	# Default template
 	install -D -m 644 template/template-httpd.m4 $(DESTDIR)$(PREFIX)/share/siteadd/template/template-httpd.m4
 	install -D -m 644 template/template-fastcgi.m4 $(DESTDIR)$(PREFIX)/share/siteadd/template/template-fastcgi.m4
+	install -D -m 644 template/template-wrapper.m4 $(DESTDIR)$(PREFIX)/share/siteadd/template/template-wrapper.m4
 	install -D -m 644 template/htdocs-templates $(DESTDIR)$(PREFIX)/share/siteadd/template/htdocs-templates
 	install -D -m 644 template/htdocs/index.php.m4 $(DESTDIR)$(PREFIX)/share/siteadd/template/htdocs/index.php.m4
 	install -D -m 644 template/phpconf-7.3/php.ini.m4 $(DESTDIR)$(PREFIX)/share/siteadd/template/phpconf-7.3/php.ini.m4
@@ -74,11 +75,12 @@ install: $(QTI_PGM)
 	install -D -m 644 template/phpconf-8.2/conf.d/dummy.txt $(DESTDIR)$(PREFIX)/share/siteadd/template/phpconf-8.2/conf.d/dummy.txt
 	install -D -m 644 template/phpconf-8.3/conf.d/dummy.txt $(DESTDIR)$(PREFIX)/share/siteadd/template/phpconf-8.3/conf.d/dummy.txt
 	install -D -m 644 template/phpconf-8.4/conf.d/dummy.txt $(DESTDIR)$(PREFIX)/share/siteadd/template/phpconf-8.4/conf.d/dummy.txt
-	install -D -m 644 template/phpconf-8.5/conf.d/dummy.txt $(DESTDIR)$(PREFIX)/share/siteadd/template/phpconf-8.4/conf.d/dummy.txt
+	install -D -m 644 template/phpconf-8.5/conf.d/dummy.txt $(DESTDIR)$(PREFIX)/share/siteadd/template/phpconf-8.5/conf.d/dummy.txt
 	# Legacy DB template
 	install -D -m 755 template-legacy-db/preflight.sh $(DESTDIR)$(PREFIX)/share/siteadd/template-legacy-db/preflight.sh
 	install -D -m 644 template-legacy-db/template-httpd.m4 $(DESTDIR)$(PREFIX)/share/siteadd/template-legacy-db/template-httpd.m4
 	install -D -m 644 template-legacy-db/template-fastcgi.m4 $(DESTDIR)$(PREFIX)/share/siteadd/template-legacy-db/template-fastcgi.m4
+	install -D -m 644 template-legacy-db/template-wrapper.m4 $(DESTDIR)$(PREFIX)/share/siteadd/template-legacy-db/template-wrapper.m4
 	install -D -m 644 template-legacy-db/htdocs-templates $(DESTDIR)$(PREFIX)/share/siteadd/template-legacy-db/htdocs-templates
 	install -D -m 644 template-legacy-db/htdocs/index.php.m4 $(DESTDIR)$(PREFIX)/share/siteadd/template-legacy-db/htdocs/index.php.m4
 	install -D -m 644 template-legacy-db/phpconf-7.3/php.ini.m4 $(DESTDIR)$(PREFIX)/share/siteadd/template-legacy-db/phpconf-7.3/php.ini.m4
