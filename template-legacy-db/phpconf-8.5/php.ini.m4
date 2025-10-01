@@ -1375,7 +1375,7 @@ session.cookie_httponly =
 
 ; Add SameSite attribute to cookie to help mitigate Cross-Site Request Forgery (CSRF/XSRF)
 ; Current valid values are "Strict", "Lax" or "None". When using "None",
-; make sure to include the quotes, as `none` is interpreted like `false` in ini files.
+; make sure to include the quotes, as "none" is interpreted like "false" in ini files.
 ; https://tools.ietf.org/html/draft-west-first-party-cookies-07
 session.cookie_samesite =
 
@@ -1803,8 +1803,8 @@ ldap.max_links = -1
 ; Enables or disables read-only mode for the second level cache directory.
 ; It should improve performance for read-only containers,
 ; when the cache is pre-warmed and packaged alongside the application.
-; Best used with `opcache.validate_timestamps=0`, `opcache.enable_file_override=1`
-; and `opcache.file_cache_consistency_checks=0`.
+; Best used with "opcache.validate_timestamps=0", "opcache.enable_file_override=1"
+; and "opcache.file_cache_consistency_checks=0".
 ; Note: A cache generated with a different build of PHP, a different file path,
 ; or different settings (including which extensions are loaded), may be ignored.
 ;opcache.file_cache_read_only=0
