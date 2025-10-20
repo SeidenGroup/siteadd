@@ -297,8 +297,10 @@ for dir in {bin,logs,run,conf,sessions,htdocs}; do
 done
 banner_msg "Made directories for web server"
 
-EXECUTABLE="php" m4_wrap "$TMPL_BIN" "$APACHEDIR/bin/php"
-EXECUTABLE="php-cgi" m4_wrap "$TMPL_BIN" "$APACHEDIR/bin/php-cgi"
+EXECUTABLE="bin/php" m4_wrap "$TMPL_BIN" "$APACHEDIR/bin/php"
+EXECUTABLE="bin/php-cgi" m4_wrap "$TMPL_BIN" "$APACHEDIR/bin/php-cgi"
+# XXX: Provide example FPM configs for this
+EXECUTABLE="sbin/php-fpm" m4_wrap "$TMPL_BIN" "$APACHEDIR/bin/php-fpm"
 banner_msg "Made wrapper executables"
 
 if [ -n "$OLD_SITENAME" ]; then
