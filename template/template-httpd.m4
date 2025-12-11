@@ -37,6 +37,10 @@ DirectoryIndex index.php index.html
 
 DocumentRoot xWWWDIR/htdocs
 TraceEnable Off
+# With this on, a second set of PHP and QZSRHTTP jobs will be spawned;
+# this can be confusing, as most users do not benefit from a second set of PHP
+# jobs for hot backup. Details of HotBackup directive can be found here:
+# https://www.ibm.com/docs/en/i/7.6.0?topic=ssw_ibm_i_76/rzaie/rzaiemod_core.html
 HotBackup Off
 Options -FollowSymLinks
 LogFormat "%h %T %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" combined
