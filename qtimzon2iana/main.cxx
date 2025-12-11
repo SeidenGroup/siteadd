@@ -31,11 +31,10 @@ extern "C" {
 	#include "../libsiteadd-c/ebcdic.h"
 }
 
-#include "../libsiteadd-c/ebcdic.hxx"
-#include "../libsiteadd-c/pgmfunc.hxx"
+#include "ebcdic.hxx"
+#include "pgmfunc.hxx"
 
-EF<8> RTMZ0100_name("RTMZ0100");
-EF<10> QTIMZON("QTIMZON");
+EbcdicFixedString<10> QTIMZON("QTIMZON");
 
 static auto QWCRTVTZ = PGMFunction<void*, int, const char*, const char*, ERRC0100*>("QSYS", "QWCRTVTZ");
 static auto QWCRSVAL = PGMFunction<void*, int, int, const char*, ERRC0100*>("QSYS", "QWCRSVAL");
@@ -71,7 +70,7 @@ get_RTMZ0100_entries (char *name)
 	ERRC0100 err = {};
 	err.bytes_in = sizeof(err);
 	
-	QWCRTVTZ((void*)out, outlen, RTMZ0100_name.value, name, &err);
+	QWCRTVTZ((void*)out, outlen, "RTMZ0100"_e, name, &err);
 	if (err.exception_id [0] != '\0') {
 		char code[8];
 		ebcdic2utf(err.exception_id, 7, code);

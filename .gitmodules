@@ -1,0 +1,3 @@
+[submodule "libsiteadd-c/pase-cpp"]
+	path = libsiteadd-c/pase-cpp
+	url = https://github.com/SeidenGroup/pase-cpp

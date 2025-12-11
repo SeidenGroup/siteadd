@@ -3,6 +3,7 @@
 CC := gcc
 CXX := g++
 # XXX: Do we put libsiteadd-c in -I?
+DEPS_CPFLAGS := -Ilibsiteadd-c/pase-cpp
 CFLAGS := -std=gnu11 -Wall -Werror -gxcoff -maix64 -O2
 CXXFLAGS := -std=c++14 -Wall -Werror -gxcoff -maix64 -O2
 LDFLAGS :=
@@ -24,9 +25,12 @@ all: $(QTI_PGM) $(GRC_PGM)
 clean:
 	rm -f *.tar.gz $(QTI_PGM) $(QTI_OBJ) $(GRC_PGM) $(GRC_OBJ)
 
+# Same nasty workaround that exists in pfgrep
 dist:
-	# XXX: hardcodes a lot
-	git archive --prefix=siteadd-$(VERSION)/ --format=tar.gz -o siteadd-$(VERSION).tar.gz HEAD *.sh *.php qtimzon2iana/ generate-resolv/ libsiteadd-c/ template/ template-legacy-db/ README.md COPYING Makefile
+	rm -f siteadd-$(VERSION).tar.gz
+	git archive --prefix=siteadd-$(VERSION)/ --format=tar -o siteadd-$(VERSION).tar HEAD *.sh *.php qtimzon2iana/ generate-resolv/ libsiteadd-c/ template/ template-legacy-db/ README.md COPYING Makefile
+	git submodule foreach --recursive "git archive --prefix=siteadd-$(VERSION)/"'$$path'"/ --output="'$$sha1'".tar HEAD && tar --concatenate --file=$(shell pwd)/siteadd-$(VERSION).tar "'$$sha1'".tar && rm "'$$sha1'".tar"
+	gzip siteadd-$(VERSION).tar
 
 test:
 	# requires shellcheck, obviously
@@ -125,10 +129,10 @@ install: $(QTI_PGM)
 	install -D -m 644 template-legacy-db/phpconf-8.5/conf.d/99-pdo_ibm.ini $(DESTDIR)$(PREFIX)/share/siteadd/template-legacy-db/phpconf-8.5/conf.d/30-pdo_idm.ini
 
 %.o: %.c $(QTI_DEPS) $(GRC_DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS)
+	$(CC) -c -o $@ $< $(DEPS_CFLAGS) $(CFLAGS)
 
 %.o: %.cxx $(QTI_DEPS) $(GRC_DEPS)
-	$(CXX) -c -o $@ $< $(CXXFLAGS)
+	$(CXX) -c -o $@ $< $(DEPS_CFLAGS) $(CXXFLAGS)
 
 $(QTI_PGM): $(QTI_OBJ)
 	$(CXX) -o $@ $^ /QOpenSys/usr/lib/libiconv.a $(CXXFLAGS) $(LDFLAGS)

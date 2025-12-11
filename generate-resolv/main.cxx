@@ -31,10 +31,8 @@ extern "C" {
 	#include "../libsiteadd-c/ebcdic.h"
 }
 
-#include "../libsiteadd-c/ebcdic.hxx"
-#include "../libsiteadd-c/ilefunc.hxx"
-
-EF<8> TCPA1400_name("TCPA1400");
+#include "ebcdic.hxx"
+#include "ilefunc.hxx"
 
 // surprisingly, output length is int* and not int
 static auto QtocRtvTCPA = ILEFunction<void, void*, int*, const char*, ERRC0100*>("QSYS/QTOCNETSTS", "QtocRtvTCPA");
@@ -101,7 +99,7 @@ get_tcp_attribs (void)
 	ERRC0100 err = {};
 	err.bytes_in = sizeof (err);
 	
-	QtocRtvTCPA(out, &outlen, TCPA1400_name.value, &err);
+	QtocRtvTCPA(out, &outlen, "TCPA1400"_e, &err);
 	if (err.exception_id [0] != '\0') {
 		char code[8];
 		ebcdic2utf(err.exception_id, 7, code);
