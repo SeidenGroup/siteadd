@@ -37,6 +37,7 @@ DirectoryIndex index.php index.html
 
 DocumentRoot xWWWDIR/htdocs
 TraceEnable Off
+HotBackup Off
 Options -FollowSymLinks
 LogFormat "%h %T %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" combined
 LogFormat "%{Cookie}n \"%r\" %t" cookie
