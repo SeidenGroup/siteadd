@@ -36,6 +36,8 @@ CGIJobCCSID xCCSID
 DirectoryIndex index.php index.html
 
 DocumentRoot xWWWDIR/htdocs
+# Turn off support for the TRACE verb. Mostly harmless, but a lot of automated
+# security reports will complain if it's available.
 TraceEnable Off
 # With this on, a second set of PHP and QZSRHTTP jobs will be spawned;
 # this can be confusing, as most users do not benefit from a second set of PHP
@@ -57,6 +59,12 @@ SetEnvIf "User-Agent" "Java/1\.0" force-response-1.0
 SetEnvIf "User-Agent" "RealPlayer 4\.0" force-response-1.0
 SetEnvIf "User-Agent" "MSIE 4\.0b2;" nokeepalive
 SetEnvIf "User-Agent" "MSIE 4\.0b2;" force-response-1.0
+# Note this uses the Apache 2.4 permissions syntax. If you're adapting rules
+# from another config, you will need to either turn your old rules into the 2.4
+# syntax, or change these to the 2.2 syntax. See:
+# https://httpd.apache.org/docs/2.4/upgrading.html#run-time
+# https://httpd.apache.org/docs/2.4/howto/access.html
+# https://httpd.apache.org/docs/2.4/howto/auth.html
 <Directory />
    Require all denied
 </Directory>
