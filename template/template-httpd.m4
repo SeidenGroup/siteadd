@@ -36,29 +36,29 @@ CGIJobCCSID xCCSID
 DirectoryIndex index.php index.html
 
 DocumentRoot xWWWDIR/htdocs
+
 # Turn off support for the TRACE verb. Mostly harmless, but a lot of automated
 # security reports will complain if it's available.
 TraceEnable Off
+
 # With this on, a second set of PHP and QZSRHTTP jobs will be spawned;
 # this can be confusing, as most users do not benefit from a second set of PHP
 # jobs for hot backup. Details of HotBackup directive can be found here:
 # https://www.ibm.com/docs/en/i/7.6.0?topic=ssw_ibm_i_76/rzaie/rzaiemod_core.html
 HotBackup Off
+
 Options -FollowSymLinks
+
 LogFormat "%h %T %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" combined
 LogFormat "%{Cookie}n \"%r\" %t" cookie
 LogFormat "%{User-agent}i" agent
 LogFormat "%{Referer}i -> %U" referer
 LogFormat "%h %l %u %t \"%r\" %>s %b" common
 CustomLog logs/access_log combined
+
 LogMaint logs/access_log 7 0
 LogMaint logs/error_log 7 0
-SetEnvIf "User-Agent" "Mozilla/2" nokeepalive
-SetEnvIf "User-Agent" "JDK/1\.0" force-response-1.0
-SetEnvIf "User-Agent" "Java/1\.0" force-response-1.0
-SetEnvIf "User-Agent" "RealPlayer 4\.0" force-response-1.0
-SetEnvIf "User-Agent" "MSIE 4\.0b2;" nokeepalive
-SetEnvIf "User-Agent" "MSIE 4\.0b2;" force-response-1.0
+
 # Note this uses the Apache 2.4 permissions syntax. If you're adapting rules
 # from another config, you will need to either turn your old rules into the 2.4
 # syntax, or change these to the 2.2 syntax. See:
