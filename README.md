@@ -268,6 +268,25 @@ Run for sites `seidenphp` and `newsite`:
 $ update-ini-for-nortl seidenphp newsite
 ```
 
+### update-ini-for-8.5
+
+Automatically updates the INI files to omit references to opcache, which is
+now built into the main PHP executable as of 8.5. Otherwise, you'll get a
+(harmless) warning that it can't load opcache.
+
+It takes a list of site names to update.
+
+This is not needed for the "global" PHP config (`/QOpenSys/etc/php/conf.d`),
+as RPM will automatically adjust it if you haven't manually edited the files.
+
+#### Examples
+
+Run for sites `seidenphp` and `newsite`:
+
+```
+$ update-ini-for-8.5 seidenphp newsite
+```
+
 ## Template structure
 
 The `-T` flag is used to override what templates are used for substitutions.

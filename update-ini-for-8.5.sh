@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Update site config for PHP build environment changes
+# Update config files for PHP 8.5
 # Copyright (C) 2024 Seiden Group
 #
 # This program is free software: you can redistribute it and/or modify
@@ -48,8 +48,6 @@ for site in "$@"; do
 	fi
 	
 	# Disable the extensions that are now built into the PHP binary.
-	comment_extension "$PHP_INI_SCAN_DIR/20-dom.ini"
-	comment_extension "$PHP_INI_SCAN_DIR/20-mysqlnd.ini"
-	comment_extension "$PHP_INI_SCAN_DIR/20-pdo.ini"
+	comment_extension "$PHP_INI_SCAN_DIR/10-opcache.ini"
 	banner_msg "Done fixing up extension INIs for site $site"
 done

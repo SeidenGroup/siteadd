@@ -43,7 +43,8 @@ test:
 	 toggle-db-script.sh \
 	 toggle-autostart.sh \
 	 transform-php-config.sh \
-	 update-ini-for-nortl.sh
+	 update-ini-for-nortl.sh \
+	 update-ini-for-8.5.sh
 
 install: $(QTI_PGM)
 	echo "Installing to $(DESTDIR)$(PREFIX)"
@@ -58,6 +59,7 @@ install: $(QTI_PGM)
 	install -D -m 755 canlisten.php $(DESTDIR)$(PREFIX)/bin/canlisten
 	install -D -m 755 transform-php-config.sh $(DESTDIR)$(PREFIX)/bin/transform-php-config
 	install -D -m 755 update-ini-for-nortl.sh $(DESTDIR)$(PREFIX)/bin/update-ini-for-nortl
+	install -D -m 755 update-ini-for-8.5.sh $(DESTDIR)$(PREFIX)/bin/update-ini-for-8.5
 	# Default template
 	install -D -m 644 template/template-httpd.m4 $(DESTDIR)$(PREFIX)/share/siteadd/template/template-httpd.m4
 	install -D -m 644 template/template-fastcgi.m4 $(DESTDIR)$(PREFIX)/share/siteadd/template/template-fastcgi.m4
