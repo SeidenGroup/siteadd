@@ -34,6 +34,8 @@ extern "C" {
 #include "ebcdic.hxx"
 #include "pgmfunc.hxx"
 
+using namespace pase_cpp;
+
 EbcdicFixedString<10> QTIMZON("QTIMZON");
 
 static auto QWCRTVTZ = PGMFunction<void*, int, const char*, const char*, ERRC0100*>("QSYS", "QWCRTVTZ");

@@ -34,6 +34,8 @@ extern "C" {
 #include "ebcdic.hxx"
 #include "ilefunc.hxx"
 
+using namespace pase_cpp;
+
 // surprisingly, output length is int* and not int
 static auto QtocRtvTCPA = ILEFunction<void, void*, int*, const char*, ERRC0100*>("QSYS/QTOCNETSTS", "QtocRtvTCPA");
 

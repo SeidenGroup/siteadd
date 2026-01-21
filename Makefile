@@ -2,23 +2,22 @@
 
 CC := gcc
 CXX := g++
-# XXX: Do we put libsiteadd-c in -I?
-DEPS_CPFLAGS := -Ilibsiteadd-c/pase-cpp
+DEPS_CFLAGS := -Ilibsiteadd-c/pase-cpp
 CFLAGS := -std=gnu11 -Wall -Werror -gxcoff -maix64 -O2
 CXXFLAGS := -std=c++14 -Wall -Werror -gxcoff -maix64 -O2
 LDFLAGS :=
 
 QTI_PGM := qtimzon2iana/qtimzon2iana
 QTI_OBJ := libsiteadd-c/ebcdic.o qtimzon2iana/main.o
-QTI_DEPS := qtimzon2iana/qwcrtvtz.h libsiteadd-c/ebcdic.h libsiteadd-c/errc.h libsiteadd-c/pgmfunc.hxx libsiteadd-c/ebcdic.hxx
+QTI_DEPS := qtimzon2iana/qwcrtvtz.h libsiteadd-c/ebcdic.h libsiteadd-c/errc.h
 
 GRC_PGM := generate-resolv/generate-resolv
 GRC_OBJ := libsiteadd-c/ebcdic.o generate-resolv/main.o
-GRC_DEPS := generate-resolv/QtocRtvTCPA.h libsiteadd-c/ebcdic.h libsiteadd-c/errc.h libsiteadd-c/ilefunc.hxx libsiteadd-c/ebcdic.hxx
+GRC_DEPS := generate-resolv/QtocRtvTCPA.h libsiteadd-c/ebcdic.h libsiteadd-c/errc.h
 
 # XXX: Hardcoded in scripts
 PREFIX := /QOpenSys/pkgs
-VERSION := 2.1
+VERSION := 2.1.1
 
 all: $(QTI_PGM) $(GRC_PGM)
 
@@ -29,7 +28,7 @@ clean:
 dist:
 	rm -f siteadd-$(VERSION).tar.gz
 	git archive --prefix=siteadd-$(VERSION)/ --format=tar -o siteadd-$(VERSION).tar HEAD *.sh *.php qtimzon2iana/ generate-resolv/ libsiteadd-c/ template/ template-legacy-db/ README.md COPYING Makefile
-	git submodule foreach --recursive "git archive --prefix=siteadd-$(VERSION)/"'$$path'"/ --output="'$$sha1'".tar HEAD && tar --concatenate --file=$(shell pwd)/siteadd-$(VERSION).tar "'$$sha1'".tar && rm "'$$sha1'".tar"
+	git submodule foreach --recursive "git archive --prefix=siteadd-$(VERSION)/"'$$path'"/ --output="'$$sha1'".tar HEAD && gtar --concatenate --file=$(shell pwd)/siteadd-$(VERSION).tar "'$$sha1'".tar && rm "'$$sha1'".tar"
 	gzip siteadd-$(VERSION).tar
 
 test:
