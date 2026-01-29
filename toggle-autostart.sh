@@ -77,11 +77,11 @@ case "$TOGGLE_MODE" in
 		;;
 	"enable")
 		Rfile -r "$PF_MEMBER" | sed 's/-AutoStartN/-AutoStartY/g' | Rfile -w "$PF_MEMBER"
-		banner "Site now autostarts"
+		banner_msg "Site now autostarts"
 		;;
 	"disable")
 		Rfile -r "$PF_MEMBER" | sed 's/-AutoStartY/-AutoStartN/g' | Rfile -w "$PF_MEMBER"
-		banner "Site won't autostart"
+		banner_msg "Site won't autostart"
 		;;
 	*)
 		error_msg "The mode isn't set."
