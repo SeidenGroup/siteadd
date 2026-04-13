@@ -18,7 +18,7 @@ Listen xADDRESS:xPORT
 # Apache level. Consult the mod_ibm_ssl documentation for Apache level:
 # https://www.ibm.com/docs/en/i/7.2?topic=ssw_ibm_i_72/rzaie/rzaiemod_ibm_ssl.htm
 # You may want to pay particular attention to i.e. SSLProtocolDisable.
-# To honor the server's preference of cipher suite order (presumably from strong to weak)   
+# To honor the server's preference of cipher suite order (presumably from strong to weak)
 # SSLHonorCipherOrder On
 
 # Transparent gzip compression (use on files that aren't already compressed, like text):
