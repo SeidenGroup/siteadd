@@ -204,6 +204,7 @@ fi
 TMPL_HTTP="$TMPL_DIR/template-httpd.m4"
 TMPL_FCGI="$TMPL_DIR/template-fastcgi.m4"
 TMPL_BIN="$TMPL_DIR/template-wrapper.m4"
+TMPL_YUM="$TMPL_DIR/template-yum-wrapper.m4"
 TMPL_PHPCONF="$TMPL_DIR/phpconf-$PHP_VERSION"
 TMPL_PHPCONF_D="$TMPL_DIR/phpconf-$PHP_VERSION/conf.d"
 TMPL_HTDOCS="$TMPL_DIR/htdocs"
@@ -301,6 +302,10 @@ EXECUTABLE="bin/php" m4_wrap "$TMPL_BIN" "$APACHEDIR/bin/php"
 EXECUTABLE="bin/php-cgi" m4_wrap "$TMPL_BIN" "$APACHEDIR/bin/php-cgi"
 # XXX: Provide example FPM configs for this
 EXECUTABLE="sbin/php-fpm" m4_wrap "$TMPL_BIN" "$APACHEDIR/bin/php-fpm"
+# This script is only useful for chrooted sites.
+if [ -n "$CHROOT_PREFIX" ]; then
+	m4_wrap "$TMPL_YUM" "$APACHEDIR/bin/yum"
+fi
 banner_msg "Made wrapper executables"
 
 if [ -n "$OLD_SITENAME" ]; then
