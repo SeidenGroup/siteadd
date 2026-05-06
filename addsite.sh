@@ -350,6 +350,8 @@ fi
 # Note that the group owner of the socket directory must NOT be set;
 # this doesn't seem documented.
 chgrp -R 0 "$APACHEDIR"
+# Make executables... executable
+chmod -R 755 "$APACHEDIR/bin"
 system "chgaut obj('$APACHEDIR') user(qtmhhttp) dtaaut(*rwx) objaut(*all) subtree(*all)"
 banner_msg "Set authorities"
 
