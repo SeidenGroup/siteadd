@@ -17,7 +17,7 @@ GRC_DEPS := generate-resolv/QtocRtvTCPA.h libsiteadd-c/ebcdic.h libsiteadd-c/err
 
 # XXX: Hardcoded in scripts
 PREFIX := /QOpenSys/pkgs
-VERSION := 2.1.1
+VERSION := 2.1.2
 
 all: $(QTI_PGM) $(GRC_PGM)
 
