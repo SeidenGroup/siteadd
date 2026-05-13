@@ -17,7 +17,7 @@ GRC_DEPS := generate-resolv/QtocRtvTCPA.h libsiteadd-c/ebcdic.h libsiteadd-c/err
 
 # XXX: Hardcoded in scripts
 PREFIX := /QOpenSys/pkgs
-VERSION := 2.1.2
+VERSION := 2.1.3
 
 all: $(QTI_PGM) $(GRC_PGM)
 
@@ -63,6 +63,7 @@ install: $(QTI_PGM)
 	install -D -m 644 template/template-httpd.m4 $(DESTDIR)$(PREFIX)/share/siteadd/template/template-httpd.m4
 	install -D -m 644 template/template-fastcgi.m4 $(DESTDIR)$(PREFIX)/share/siteadd/template/template-fastcgi.m4
 	install -D -m 644 template/template-wrapper.m4 $(DESTDIR)$(PREFIX)/share/siteadd/template/template-wrapper.m4
+	install -D -m 644 template/template-yum-wrapper.m4 $(DESTDIR)$(PREFIX)/share/siteadd/template/template-yum-wrapper.m4
 	install -D -m 644 template/htdocs-templates $(DESTDIR)$(PREFIX)/share/siteadd/template/htdocs-templates
 	install -D -m 644 template/htdocs/index.php.m4 $(DESTDIR)$(PREFIX)/share/siteadd/template/htdocs/index.php.m4
 	install -D -m 644 template/phpconf-7.3/php.ini.m4 $(DESTDIR)$(PREFIX)/share/siteadd/template/phpconf-7.3/php.ini.m4
@@ -86,6 +87,7 @@ install: $(QTI_PGM)
 	install -D -m 644 template-legacy-db/template-httpd.m4 $(DESTDIR)$(PREFIX)/share/siteadd/template-legacy-db/template-httpd.m4
 	install -D -m 644 template-legacy-db/template-fastcgi.m4 $(DESTDIR)$(PREFIX)/share/siteadd/template-legacy-db/template-fastcgi.m4
 	install -D -m 644 template-legacy-db/template-wrapper.m4 $(DESTDIR)$(PREFIX)/share/siteadd/template-legacy-db/template-wrapper.m4
+	install -D -m 644 template-legacy-db/template-yum-wrapper.m4 $(DESTDIR)$(PREFIX)/share/siteadd/template-legacy-db/template-yum-wrapper.m4
 	install -D -m 644 template-legacy-db/htdocs-templates $(DESTDIR)$(PREFIX)/share/siteadd/template-legacy-db/htdocs-templates
 	install -D -m 644 template-legacy-db/htdocs/index.php.m4 $(DESTDIR)$(PREFIX)/share/siteadd/template-legacy-db/htdocs/index.php.m4
 	install -D -m 644 template-legacy-db/phpconf-7.3/php.ini.m4 $(DESTDIR)$(PREFIX)/share/siteadd/template-legacy-db/phpconf-7.3/php.ini.m4
