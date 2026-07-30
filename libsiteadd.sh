@@ -110,9 +110,9 @@ set_ccsid_var() {
 
 # XXX: This is super hacky and could get more than what's needed (or not enough)
 comment_extension() {
-	sed -i 's/^\s*extension=\([A-Za-z0-9_\-\.]*\).*$/; extension=\1/g' "$1"
+	sed -i 's/^\s*\(zend_extension\|extension\)=\([A-Za-z0-9_\-\.]*\).*$/; \1=\2/g' "$1"
 }
 
 uncomment_extension() {
-	sed -i 's/^\s*;\s*extension=\([A-Za-z0-9_\-\.]*\).*$/extension=\1/g' "$1"
+	sed -i 's/^\s*;\s*\(zend_extension\|extension\)=\([A-Za-z0-9_\-\.]*\).*$/\1=\2/g' "$1"
 }
